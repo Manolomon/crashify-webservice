@@ -21,4 +21,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         WHERE idConductor = idConductor;
     </select>
     
+    <update id = "editarVehiculo" parameterTYpe = "beans.Vehiculo">
+        UPDATE transito.dbo.Vehiculo SET
+        numPlacas = #{numPlacas}, modelo = #{modelo}, marca=#{marca}, año = #{year}, color=#{color}
+        WHERE idVehiculo = #{idVehiculo};
+    </update>
+    
+    <delete id = "eliminarVehiculo" parameterType = "int">
+        DELETE FROM transito.dbo.Vehiculo
+        WHERE idVehiculo = #{idVehiculo};
+    </delete>
+    
 </mapper>

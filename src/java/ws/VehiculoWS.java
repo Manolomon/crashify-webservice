@@ -95,4 +95,47 @@ public class VehiculoWS {
         int idConductor = Integer.parseInt(idConductorString);
         return VehiculoDAO.getVehiculos(idConductor);
     }
+    
+    @POST
+    @Path("editarVehiculo")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Respuesta editarVehiculo(
+            @FormParam("idVehiculo") String idVehiculoString,
+            @FormParam("numPlacas") String numPlacas,
+            @FormParam("marca") String marca,
+            @FormParam("modelo") String modelo,
+            @FormParam("color") String color,
+            @FormParam("año") String year,
+            @FormParam("idConductor") String idConductor
+    ){
+        Respuesta res = new Respuesta();
+        int idVehiculo = Integer.parseInt(idVehiculoString);
+        Vehiculo vehiculo = new Vehiculo(idVehiculo, numPlacas, modelo, marca, year, color, idConductor);
+        int fa = VehiculoDAO.editarVehiculo(vehiculo);
+        if (fa > 0) {
+            res.setError(false);
+            res.setErrorcode(0);
+            res.setMensaje("Vehículo actualizado exitosamente");
+        } else {
+            switch (fa) {
+                case -1:
+                    res.setError(true);
+                    res.setErrorcode(1);
+                    res.setMensaje("Error al actualizar Vehículo, datos no válidos");
+                    break;
+                case -2:
+                    res.setError(true);
+                    res.setErrorcode(2);
+                    res.setMensaje("Error al registrar Vehículo,"
+                            + " ya hay un vehiculo registrado con las mismas placas");
+                    break;
+                default:
+                    res.setError(true);
+                    res.setErrorcode(3);
+                    res.setMensaje("Error de conexión");
+                    break;
+            }
+        }
+        return res;
+    }
 }

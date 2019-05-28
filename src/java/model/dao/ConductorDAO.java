@@ -9,6 +9,7 @@ import beans.Conductor;
 import beans.Respuesta;
 import beans.RespuestaValidacion;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
 import java.util.Random;
@@ -17,7 +18,7 @@ import org.apache.ibatis.session.SqlSession;
 
 /**
  *
- * @author benji
+ * @author Juan Carlos
  */
 public class ConductorDAO {
 
@@ -138,12 +139,68 @@ public class ConductorDAO {
     }
 
     /**
+     * Método para que el conductor pueda iniciar autenticarse en el sistema
+     * tomando como referencia la información almacenada en la base de datos
+     *
+     * @param telefono
+     * @param password
+     * @return
+     */
+    public static RespuestaValidacion iniciarSesion(String telefono, String password) {
+        RespuestaValidacion respuesta = new RespuestaValidacion();
+        Respuesta error = new Respuesta();
+        Conductor conductor = new Conductor();
+        int filas = 0;
+        if (telefono == null || telefono.isEmpty()) {
+            error.setError(true);
+            error.setErrorcode(1);
+            error.setMensaje("Ingrese telefono");
+            respuesta.setError(error);
+        } else if (password == null || password.isEmpty()) {
+            error.setError(true);
+            error.setErrorcode(2);
+            error.setMensaje("Ingrese token");
+            respuesta.setError(error);
+        } else if (buscarConductor(telefono).getIdConductor() == 0) {
+            error.setError(true);
+            error.setErrorcode(3);
+            error.setMensaje("Error de registro, no existe un conductor con ese telefono");
+            respuesta.setError(error);
+        } else {
+            SqlSession conn = null;
+            try {
+                HashMap<String, Object> param = new HashMap<String, Object>();
+                param.put("telefono", telefono);
+                param.put("password", password);
+                conn = MyBatisUtils.getSession();
+                conductor = conn.selectOne("Conductor.iniciarSesion", param);
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            } finally {
+                if (conn != null) {
+                    conn.close();
+                }
+            }
+
+            if (conductor.getIdConductor() != 0) {
+                respuesta.setConductor(conductor);
+            } else {
+                error.setError(true);
+                error.setErrorcode(5);
+                error.setMensaje("Error al cargar conductor");
+                respuesta.setError(error);
+            }
+        }
+        return respuesta;
+    }
+
+    /**
      * Método para buscar si el telefono de un conductor ya fue registrado
      *
      * @param conductor el conductor dueño del telefono
      * @return Boolean: true si ya esta registrado, false en caso contrario
      */
-    public static boolean buscarTelefono(Conductor conductor) {
+    private static boolean buscarTelefono(Conductor conductor) {
         String telefono = conductor.getTelefono();
         boolean respuesta = false;
         List<Conductor> list = new ArrayList<Conductor>();

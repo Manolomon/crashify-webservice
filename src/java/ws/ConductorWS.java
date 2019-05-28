@@ -91,25 +91,15 @@ public class ConductorWS {
         return res;
     }
 
-    /**
-     * Retrieves representation of an instance of ws.UsuarioWS
-     *
-     * @return an instance of java.lang.String
-     */
-    @GET
+    @POST
+    @Path("iniciarSesion")
     @Produces(MediaType.APPLICATION_JSON)
-    public String getJson() {
-        //TODO return proper representation object
-        throw new UnsupportedOperationException();
-    }
-
-    /**
-     * PUT method for updating or creating an instance of UsuarioWS
-     *
-     * @param content representation for the resource
-     */
-    @PUT
-    @Consumes(MediaType.APPLICATION_JSON)
-    public void putJson(String content) {
+    public RespuestaValidacion iniciarSesion(
+            @FormParam("telefono") String telefono,
+            @FormParam("password") String password
+    ){
+         RespuestaValidacion res = new RespuestaValidacion();
+        res = ConductorDAO.iniciarSesion(telefono, password);
+        return res;
     }
 }

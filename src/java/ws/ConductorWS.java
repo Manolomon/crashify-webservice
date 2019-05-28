@@ -7,6 +7,7 @@ package ws;
 
 import beans.Conductor;
 import beans.Respuesta;
+import beans.RespuestaValidacion;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.Produces;
@@ -75,6 +76,18 @@ public class ConductorWS {
                     break;
             }
         }
+        return res;
+    }
+    
+    @POST
+    @Path("autenticar")
+    @Produces(MediaType.APPLICATION_JSON)
+    public RespuestaValidacion autenticarConductor(
+            @FormParam("telefono") String telefono,
+            @FormParam("token") String token
+    ){
+        RespuestaValidacion res = new RespuestaValidacion();
+        res = ConductorDAO.autenticarConductor(telefono, token);
         return res;
     }
 

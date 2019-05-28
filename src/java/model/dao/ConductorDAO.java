@@ -6,6 +6,8 @@
 package model.dao;
 
 import beans.Conductor;
+import beans.Respuesta;
+import beans.RespuestaValidacion;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -59,19 +61,19 @@ public class ConductorDAO {
         }
         conductor.setTokenAcceso(token);
         conductor.setIdEstatus(1);
-        try{
+        try {
             conn = MyBatisUtils.getSession();
-            res = conn.insert("Conductor.registrar",conductor);
+            res = conn.insert("Conductor.registrar", conductor);
             conn.commit();
             /*if(res > 0){
                 String mensaje = "Hola " + conductor.getNombre() + 
                         " \n Tu token de acceso es: " + conductor.getTokenAcceso();
                 jax.enviar(usuario.getTelefono(), mensaje);
             }*/
-        }catch(Exception ex){
+        } catch (Exception ex) {
             ex.printStackTrace();
-        }finally{
-            if (conn !=null){
+        } finally {
+            if (conn != null) {
                 conn.close();
             }
         }
@@ -79,10 +81,67 @@ public class ConductorDAO {
     }
 
     /**
+     * Método para validar un conductor asociado a un teléfono con un token de
+     * acceso especifico
+     *
+     * @param telefono le telefono a validar
+     * @param token el token de acceso ingresado por el conductor
+     * @return Respuesta Validación: Error si no se ha podido validar o el
+     * conductor validado
+     */
+    public static RespuestaValidacion autenticarConductor(String telefono, String token) {
+        RespuestaValidacion respuestaValidacion = new RespuestaValidacion();
+        Respuesta error = new Respuesta();
+        Conductor conductor;
+        int filas = 0;
+        if (telefono == null || telefono.isEmpty()) {
+            error.setError(true);
+            error.setErrorcode(1);
+            error.setMensaje("Ingrese telefono");
+            respuestaValidacion.setError(error);
+        } else if (token == null || token.isEmpty()) {
+            error.setError(true);
+            error.setErrorcode(2);
+            error.setMensaje("Ingrese token");
+            respuestaValidacion.setError(error);
+        } else if (!verificarTelefono(telefono)) {
+            error.setError(true);
+            error.setErrorcode(3);
+            error.setMensaje("Error de registro, telefono ya validado");
+            respuestaValidacion.setError(error);
+        } else {
+            conductor = buscarConductor(telefono);
+            if (conductor.getIdConductor() != 0) {
+                SqlSession conn = null;
+                try {
+                    conn = MyBatisUtils.getSession();
+                    filas = conn.update("Conductor.validarConductor", conductor);
+                    conn.commit();
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                } finally {
+                    if (conn != null) {
+                        conn.close();
+                    }
+                }
+            }
+            if (filas > 0) {
+                conductor = ConductorDAO.buscarConductor(telefono);
+                respuestaValidacion.setConductor(conductor);
+            } else {
+                error.setError(true);
+                error.setErrorcode(4);
+                error.setMensaje("Error al validar conductor");
+            }
+        }
+        return respuestaValidacion;
+    }
+
+    /**
      * Método para buscar si el telefono de un conductor ya fue registrado
      *
      * @param conductor el conductor dueño del telefono
-     * @return Boolean true si ya esta registrado, false en caso contrario
+     * @return Boolean: true si ya esta registrado, false en caso contrario
      */
     public static boolean buscarTelefono(Conductor conductor) {
         String telefono = conductor.getTelefono();
@@ -114,12 +173,60 @@ public class ConductorDAO {
     /**
      * Método para generar de manera aleatoria una parte del token de acceso
      *
-     * @return Una parte del token de acceso.
+     * @return String: Una parte del token de acceso.
      */
     private static String generarParteToken() {
         Integer parte = 0;
         Random rg = new Random();
         parte = rg.nextInt(9);
         return parte.toString();
+    }
+
+    /**
+     * Método para verificar si un telefono ya ha sido validado antes
+     *
+     * @param telefono el telefono a validar
+     * @return Boolean: true si aun no ha sido registrado
+     */
+    private static boolean verificarTelefono(String telefono) {
+        List<Conductor> list = new ArrayList<>();
+        if (telefono != null && !telefono.isEmpty()) {
+            SqlSession conn = null;
+            try {
+                conn = MyBatisUtils.getSession();
+                list = conn.selectList("Conductor.buscarTelefonoNoValidado", telefono);
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            } finally {
+                if (conn != null) {
+                    conn.close();
+                }
+            }
+        }
+        return !list.isEmpty();
+    }
+
+    /**
+     * Método para obtener el conductor asociado al teléfono registrado
+     *
+     * @param telefono el teléfono a comparar
+     * @return Conductor: el conductor encontrado, null en caso contrario
+     */
+    private static Conductor buscarConductor(String telefono) {
+        Conductor conductor = new Conductor();
+        if (telefono != null && !telefono.isEmpty()) {
+            SqlSession conn = null;
+            try {
+                conn = MyBatisUtils.getSession();
+                conductor = conn.selectOne("Conductor.buscarTelefono", telefono);
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            } finally {
+                if (conn != null) {
+                    conn.close();
+                }
+            }
+        }
+        return conductor;
     }
 }

@@ -7,6 +7,8 @@ package ws;
 
 import beans.Respuesta;
 import beans.Vehiculo;
+import java.util.ArrayList;
+import java.util.List;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.Consumes;
@@ -81,5 +83,16 @@ public class VehiculoWS {
             }
         }
         return res;
+    }
+    
+    @POST
+    @Path("getVehiculos")
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<Vehiculo> getVehiculos(
+            @FormParam("idConductor") String idConductorString
+    ){
+        List<Vehiculo> list = new ArrayList<>();
+        int idConductor = Integer.parseInt(idConductorString);
+        return VehiculoDAO.getVehiculos(idConductor);
     }
 }

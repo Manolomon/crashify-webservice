@@ -26,7 +26,7 @@ import model.dao.ConductorDAO;
  * @author manolo
  * @author Juan Carlos
  */
-@Path("usuario")
+@Path("conductores")
 public class ConductorWS {
 
     @Context

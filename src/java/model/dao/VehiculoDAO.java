@@ -64,6 +64,25 @@ public class VehiculoDAO {
         return res;
     }
     
+    
+    public static List<Vehiculo> getVehiculos(Integer idConductor) {
+        List<Vehiculo> list = new ArrayList<>();
+        SqlSession conn = null;
+        try {
+            conn = MyBatisUtils.getSession();
+            list = conn.selectList("Vehiculo.getVehiculosConductor", idConductor);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        } finally {
+            if (conn != null) {
+                conn.close();
+            }
+        }
+        return list;
+    }
+    
+    
+    
     private static boolean buscarVehiculo(Vehiculo vehiculo) {
         String numPlacas = vehiculo.getNumPlacas();
         boolean respuesta = false;

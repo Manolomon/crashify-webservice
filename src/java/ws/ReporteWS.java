@@ -1,0 +1,78 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package ws;
+
+import beans.Reporte;
+import beans.Respuesta;
+import javax.ws.rs.core.Context;
+import javax.ws.rs.core.UriInfo;
+import javax.ws.rs.Produces;
+import javax.ws.rs.Consumes;
+import javax.ws.rs.FormParam;
+import javax.ws.rs.GET;
+import javax.ws.rs.POST;
+import javax.ws.rs.Path;
+import javax.ws.rs.PUT;
+import javax.ws.rs.core.MediaType;
+import model.dao.ReporteDAO;
+
+/**
+ * REST Web Service
+ *
+ * @author Juan Carlos
+ */
+@Path("reportes")
+public class ReporteWS {
+
+    @Context
+    private UriInfo context;
+
+    /**
+     * Creates a new instance of ReporteWS
+     */
+    public ReporteWS() {
+    }
+
+    @POST
+    @Path("nuevoReporte")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Respuesta agregarReporte(
+            @FormParam ("descripcion") String descripcion,
+            @FormParam ("idConductor") String idConductorString,
+            @FormParam ("latitud") String latitud,
+            @FormParam ("longitud") String longitud,
+            @FormParam ("placasVehiculos") String placasVehiculos
+    ){
+        Respuesta res = new Respuesta();
+        int idConductor = Integer.parseInt(idConductorString);
+        Reporte reporte = new Reporte();
+        reporte.setDescripcion(descripcion);
+        reporte.setIdConductor(idConductor);
+        reporte.setLatitud(latitud);
+        reporte.setLongitud(longitud);
+        reporte.setPlacasVehiculos(placasVehiculos);
+        int fa = ReporteDAO.agregarReporte(reporte);
+        if (fa > 0) {
+            res.setError(false);
+            res.setErrorcode(0);
+            res.setMensaje("Reporte enviado exitosamente");
+        } else {
+            switch (fa) {
+                case -1:
+                    res.setError(true);
+                    res.setErrorcode(1);
+                    res.setMensaje("Error al levantar reporte, datos no válidos");
+                    break;
+                case -2:
+                    res.setError(true);
+                    res.setErrorcode(3);
+                    res.setMensaje("Error de conexión");
+                    break;
+            }
+        }
+        return res;
+    }
+}

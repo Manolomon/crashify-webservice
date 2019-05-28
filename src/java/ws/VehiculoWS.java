@@ -138,4 +138,15 @@ public class VehiculoWS {
         }
         return res;
     }
+    
+    @POST
+    @Path("getVehiculos")
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<Vehiculo> getVehiculosReporte(
+            @FormParam("idReporte") String idReporteString
+    ){
+        List<Vehiculo> list = new ArrayList<>();
+        int idReporte = Integer.parseInt(idReporteString);
+        return VehiculoDAO.getVehiculos(idReporte);
+    }
 }

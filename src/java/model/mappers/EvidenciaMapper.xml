@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="Evidencia">
+    <insert id = "registrar" parameterType = "beans.Evidencia">
+        INSERT INTO transito.dbo.Evidencias (idReporte, archivo)
+        VALUES (#{idReporte},#{bytes});
+    </insert>
+    
+    <select id  ="obtenerFotosReporte" parameterType = "int" resultType = "beans.Evidencia">
+        SELECT idEvidencia, idReporte, archivo as bytes
+        FROM transito.dbo.Evidencias
+        WHERE idReporte = #{idReporte};
+    </select>
+    
+</mapper>

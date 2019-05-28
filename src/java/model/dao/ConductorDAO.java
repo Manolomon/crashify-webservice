@@ -69,8 +69,7 @@ public class ConductorDAO {
             res = conn.insert("Conductor.registrar", conductor);
             conn.commit();
             if(res > 0){
-                String mensaje = "Hola " + conductor.getNombre() + 
-                        " \n Tu token de acceso es: " + conductor.getTokenAcceso();
+                String mensaje = "Tu token para Crashify es: " + conductor.getTokenAcceso();
                 jax.enviar(conductor.getTelefono(), mensaje);
             }
         } catch (Exception ex) {

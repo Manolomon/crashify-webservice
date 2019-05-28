@@ -105,6 +105,22 @@ public class VehiculoDAO {
         return res;
     }
 
+    public static List<Vehiculo> getVehiculosReporte(Integer idReporte) {
+        List<Vehiculo> list = new ArrayList<>();
+        SqlSession conn = null;
+        try {
+            conn = MyBatisUtils.getSession();
+            list = conn.selectList("Vehiculo.getVehiculosReporte", idReporte);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        } finally {
+            if (conn != null) {
+                conn.close();
+            }
+        }
+        return list;
+    }
+    
     private static int validarVehiculo(Vehiculo vehiculo) {
         if (vehiculo.getMarca() == null
                 || vehiculo.getMarca().toString().trim().isEmpty()) {

@@ -30,6 +30,8 @@ public class ApplicationConfig extends Application {
      */
     private void addRestResourceClasses(Set<Class<?>> resources) {
         resources.add(ws.ConductorWS.class);
+        resources.add(ws.EvidenciaWS.class);
+        resources.add(ws.ReporteWS.class);
         resources.add(ws.VehiculoWS.class);
     }
     

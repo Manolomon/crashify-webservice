@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="Reporte">
+    <insert id = "registrar" parameterType = "beans.Reporte">
+        INSERT INTO transito.dbo.Reportes (latitud, longitud, estado, idConductor)
+        VALUES (#{latitud},#{longitud},#{estado});
+    </insert>
+    
+    <select id = "buscarReportes" parameterType = "int" resultType = "beans.Reporte">
+        SELECT idReporte, latitud, longitud, estado, dictamen, idConductor, descripcion, placasVehiculos
+        FROM transito.dbo.Reportes
+        WHERE idConductor = #{idConductor};
+    </select>
+    
+</mapper>

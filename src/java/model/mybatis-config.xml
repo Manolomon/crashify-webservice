@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration
+PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-config.dtd">
+
+<configuration>
+    <environments default="development">
+        
+        <environment id="development">
+            <transactionManager type="JDBC"/>
+            <dataSource type="POOLED" >
+                <property name="driver" value="com.microsoft.sqlserver.jdbc.SQLServerDriver"/>
+                <property name="url" value="jdbc:sqlserver://3.217.0.253:1433;db=transito"/>
+                <property name="username" value="sa"/>
+                <property name="password" value="Dba12345"/>
+                <property name="poolMaximumActiveConnections" value="50"/>
+            </dataSource>
+        </environment>
+        
+    </environments>
+    
+    <mappers>
+        <mapper resource="model/mappers/ConductorMapper.xml"/>
+    </mappers>
+</configuration>

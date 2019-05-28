@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="Conductor">
+    <insert id = "registrar" parameterType = "beans.Conductor">
+        INSERT INTO transito.dbo.Conductor (nombre, fechaNacimiento, telefono, numLicencia, password, idEstatus, tokenAcceso)
+        VALUES (#{nombre},#{fechaNacimiento}, #{telefono}, #{numLicencia}, #{password},#{idEstatus},#{tokenAcceso});
+    </insert>
+    
+    <select id = "buscarTelefono" parameterType = "string" resultType = "beans.Conductor">
+        SELECT idConductor, nombre, password, telefono, fechaNacimiento, idEstatus, numLicencia
+        FROM transito.dbo.Conductor
+        WHERE telefono = #{telefono};
+    </select>
+    
+    <select id = "iniciarSesion" parameterType = "map" resultType = "beans.Conductor">
+        SELECT idConductor, nombre, password, telefono, fechaNacimiento, idEstatus, numLicencia
+        FROM transito.dbo.Conductor
+        WHERE telefono = #{telefono} AND password = #{password} AND idEstatus = 2;
+    </select>
+    
+    <select id = "buscarTelefonoNoValidado" parameterType = "string" resultType = "beans.Conductor">
+        SELECT idConductor, nombre, password, telefono, fechaNacimiento, idEstatus, numLicencia
+        FROM transito.dbo.Conductor
+        WHERE telefono = #{telefono} AND idEstatus = '1';
+    </select>
+    
+    <update id = "validarConductor" parameterType = "beans.Conductor">
+        UPDATE transito.dbo.Conductor SET 
+        idEstatus = 2, tiempoValidación = GETDATE()
+        WHERE idConductor = #{idConductor}
+    </update>
+    
+</mapper>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="Vehiculo">
+    <insert id = "registrar" parameterType = "beans.Vehiculo">
+        INSERT INTO transito.dbo.Vehiculo (numPlacas, modelo, marca, año, color, idConductor)
+        VALUES (#{numPlacas},#{modelo},#{marca},#{year},#{color},#{idConductor});
+    </insert>
+    
+    <select id = "buscarVehiculo" parameterType = "string" resultType = "beans.Vehiculo">
+        SELECT idVehiculo, numPlacas, modelo, marca, año AS year, color, idConductor
+        FROM transito.dbo.Vehiculo
+        WHERE numPlacas = #{numPLacas};
+    </select>
+    
+    <select id = "getVehiculosConductor" parameterType = "int" resultType = "beans.Vehiculo">
+        SELECT idVehiculo, numPlacas, modelo, marca, año AS year, color, idConductor
+        FROM transito.dbo.Vehiculo
+        WHERE idConductor = idConductor;
+    </select>
+    
+</mapper>

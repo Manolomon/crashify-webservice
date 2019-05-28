@@ -8,6 +8,7 @@ package model.dao;
 import beans.Conductor;
 import beans.Respuesta;
 import beans.RespuestaValidacion;
+import gateway.sms.JaxSms;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -31,6 +32,7 @@ public class ConductorDAO {
      * @return Integer: el numero de filas afectadas o un código de error
      */
     public static int registrarConductor(Conductor conductor) {
+        JaxSms jax = new JaxSms();
         int res = 0;
         SqlSession conn = null;
         if (conductor.getNombre() == null
@@ -66,11 +68,11 @@ public class ConductorDAO {
             conn = MyBatisUtils.getSession();
             res = conn.insert("Conductor.registrar", conductor);
             conn.commit();
-            /*if(res > 0){
+            if(res > 0){
                 String mensaje = "Hola " + conductor.getNombre() + 
                         " \n Tu token de acceso es: " + conductor.getTokenAcceso();
-                jax.enviar(usuario.getTelefono(), mensaje);
-            }*/
+                jax.enviar(conductor.getTelefono(), mensaje);
+            }
         } catch (Exception ex) {
             ex.printStackTrace();
         } finally {

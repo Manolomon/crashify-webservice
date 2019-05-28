@@ -7,7 +7,7 @@ package beans;
 
 /**
  *
- * @author benji
+ * @author Juan Carlos
  */
 public class Conductor {
 

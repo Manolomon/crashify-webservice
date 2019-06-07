@@ -6,7 +6,6 @@
 package model.dao;
 
 import beans.Reporte;
-import beans.Respuesta;
 import java.util.ArrayList;
 import java.util.List;
 import model.MyBatisUtils;
@@ -22,12 +21,13 @@ public class ReporteDAO {
         int res = 0;
         SqlSession conn = null;
         res = validarReporte(reporte);
-        if(res != 0){
+        if (res != 0) {
             return res;
         }
         try {
             conn = MyBatisUtils.getSession();
             res = conn.insert("Reporte.registrar", reporte);
+            conn.commit();
             if (res < 0) {
                 return -2;
             }
@@ -40,17 +40,17 @@ public class ReporteDAO {
         }
         return res;
     }
-    
-    public static List<Reporte> getReportes(int idConductor){
+
+    public static List<Reporte> getReportes(int idConductor) {
         List<Reporte> list = new ArrayList<>();
         SqlSession conn = null;
         try {
-                conn = MyBatisUtils.getSession();
-                list = conn.selectList("Reporte.buscarReportes", idConductor);
-            } catch (Exception ex) {
-                ex.printStackTrace();
-         }finally{
-            if (conn != null){
+            conn = MyBatisUtils.getSession();
+            list = conn.selectList("Reporte.buscarReportes", idConductor);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        } finally {
+            if (conn != null) {
                 conn.close();
             }
         }

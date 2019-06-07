@@ -8,6 +8,7 @@ package model.dao;
 import beans.Evidencia;
 import beans.Reporte;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import model.MyBatisUtils;
 import org.apache.ibatis.session.SqlSession;
@@ -17,29 +18,32 @@ import org.apache.ibatis.session.SqlSession;
  * @author Juan Carlos
  */
 public class EvidenciaDAO {
-    public static int agregarEvidencia(Evidencia evidencia) {
-        int res = 0;
+    
+    
+    public static int agregarImagen(byte[] datos, int idReporte) throws Exception {
+        int fa = 0;
         SqlSession conn = null;
-        if(evidencia.getBytes().length == 0){
-            return -1;
-        }
-        if(evidencia.getIdReporte() == 0){
-            return -1;
-        }
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("foto", datos);
+        map.put("idReporte", idReporte);
+        System.out.println(datos.length);
         try {
             conn = MyBatisUtils.getSession();
-            res = conn.insert("Evidencia.registrar", evidencia);
-            if (res < 0) {
-                return -2;
+            fa = conn.insert("Evidencia.insertarImagen", map);
+            conn.commit();
+            if (fa > 0) {
+                return fa;
+            } else {
+                return -3;
             }
         } catch (Exception ex) {
             ex.printStackTrace();
+            throw new Exception(ex);
         } finally {
             if (conn != null) {
                 conn.close();
             }
         }
-        return res;
     }
     
     public static List<Evidencia> getEvidencias(int idReporte){

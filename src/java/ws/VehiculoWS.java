@@ -140,7 +140,7 @@ public class VehiculoWS {
     }
     
     @POST
-    @Path("getVehiculos")
+    @Path("getVehiculosReporte")
     @Produces(MediaType.APPLICATION_JSON)
     public List<Vehiculo> getVehiculosReporte(
             @FormParam("idReporte") String idReporteString

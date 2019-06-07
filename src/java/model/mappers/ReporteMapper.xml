@@ -5,14 +5,30 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 <mapper namespace="Reporte">
     <insert id = "registrar" parameterType = "beans.Reporte">
-        INSERT INTO transito.dbo.Reportes (latitud, longitud, estado, idConductor)
-        VALUES (#{latitud},#{longitud},#{estado});
+        INSERT INTO transito.dbo.Reporte (estado, idConductor)
+        VALUES (#{estado},#{idConductor});
     </insert>
     
     <select id = "buscarReportes" parameterType = "int" resultType = "beans.Reporte">
-        SELECT idReporte, latitud, longitud, estado, dictamen, idConductor, descripcion, placasVehiculos
-        FROM transito.dbo.Reportes
-        WHERE idConductor = #{idConductor};
+        SELECT a.idReporte, a.idConductor, a.idSiniestro, a.estado, a.comentario as descripcion, b.latitud, b.longitud, b.dictamen
+        FROM transito.dbo.Reporte a
+        INNER JOIN (
+            SELECT c.idSiniestro, c.longitud, c.latitud, d.dictamen
+            FROM transito.dbo.Siniestro c
+            INNER JOIN transito.dbo.Dictamen d
+            ON c.idDictamen = d.idDictamen
+        ) b
+        ON a.idSiniestro = b.idSiniestro
+        WHERE a.idConductor = #{idConductor};
     </select>
     
+    <select id="buscarPlacasReporte" parameterType = "int" resultType = "map">
+        SELECT (
+            SELECT numPlacas 
+            FROM transito.dbo.Reporte_Vehiculo
+            UNION
+            SELECT numPlacas
+            FROM transito.dbo.Reporte_VehiculoAnonimo
+        ) AS NUMPLACAS
+    </select>   
 </mapper>

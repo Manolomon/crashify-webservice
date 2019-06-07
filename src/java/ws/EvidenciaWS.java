@@ -18,8 +18,10 @@ import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PUT;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.core.MediaType;
 import model.dao.EvidenciaDAO;
+import model.dao.ReporteDAO;
 
 /**
  * REST Web Service
@@ -39,37 +41,32 @@ public class EvidenciaWS {
     }
 
     @POST
-    @Path("agregarEvidencia")
+    @Path("/subirImagen/{idReporte}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Respuesta agregarEvidencia(
-            @FormParam("idReporte") String idReporteString,
-            @FormParam("evidencia") byte[] bytes
+    @Consumes(MediaType.APPLICATION_OCTET_STREAM)
+    public Respuesta subirImagen(
+            @PathParam("idReporte") Integer idReporte, byte[] bytes
     ){
         Respuesta res = new Respuesta();
-        int idReporte = Integer.parseInt(idReporteString);
-        Evidencia evidencia = new Evidencia();
-        evidencia.setIdReporte(idReporte);
-        evidencia.setBytes(bytes);
-        
-        int fa = EvidenciaDAO.agregarEvidencia(evidencia);
-        if (fa > 0) {
-            res.setError(false);
-            res.setErrorcode(0);
-            res.setMensaje("Evidencia enviada exitosamente");
-        } else {
-            switch (fa) {
-                case -1:
-                    res.setError(true);
-                    res.setErrorcode(1);
-                    res.setMensaje("Error al enviar evidencia, datos no válidos");
-                    break;
-                case -2:
-                    res.setError(true);
-                    res.setErrorcode(3);
-                    res.setMensaje("Error de conexión");
-                    break;
+        int fa = 0;
+        try{
+            fa = EvidenciaDAO.agregarImagen(bytes, idReporte);
+            if (fa > 0){
+                res.setError(false);
+                res.setErrorcode(200);
+                res.setMensaje("Imagen agregada exitosamente");
+            }else{
+                res.setError(true);
+                res.setErrorcode(404);
+                res.setMensaje("Error al guardar datos");
             }
+        }catch (Exception ex){
+            ex.printStackTrace();
+            res.setError(true);
+            res.setMensaje(ex.getMessage());
+            res.setErrorcode(405);
         }
+        
         return res;
     }
     

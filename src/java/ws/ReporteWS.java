@@ -16,6 +16,7 @@ import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PUT;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.core.MediaType;
 import model.dao.ReporteDAO;
 
@@ -44,7 +45,8 @@ public class ReporteWS {
             @FormParam ("idConductor") String idConductorString,
             @FormParam ("latitud") String latitud,
             @FormParam ("longitud") String longitud,
-            @FormParam ("placasVehiculos") String placasVehiculos
+            @FormParam ("placasVehiculos") String placasVehiculos,
+            @FormParam ("hora") String hora
     ){
         Respuesta res = new Respuesta();
         int idConductor = Integer.parseInt(idConductorString);
@@ -54,6 +56,7 @@ public class ReporteWS {
         reporte.setLatitud(latitud);
         reporte.setLongitud(longitud);
         reporte.setPlacasVehiculos(placasVehiculos);
+        reporte.setEstado(1);
         int fa = ReporteDAO.agregarReporte(reporte);
         if (fa > 0) {
             res.setError(false);

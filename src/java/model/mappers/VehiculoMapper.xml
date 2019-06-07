@@ -5,8 +5,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 <mapper namespace="Vehiculo">
     <insert id = "registrar" parameterType = "beans.Vehiculo">
-        INSERT INTO transito.dbo.Vehiculo (numPlacas, modelo, marca, año, color, idConductor)
-        VALUES (#{numPlacas},#{modelo},#{marca},#{year},#{color},#{idConductor});
+        INSERT INTO transito.dbo.Vehiculo (numPlacas, modelo, marca, año, color)
+        VALUES (#{numPlacas},#{modelo},#{marca},#{year},#{color});
     </insert>
     
     <select id = "buscarVehiculo" parameterType = "string" resultType = "beans.Vehiculo">
@@ -29,7 +29,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         WHERE idConductor = #{idConductor};
     </select>
     
-    <update id = "editarVehiculo" parameterTYpe = "beans.Vehiculo">
+    <update id = "editarVehiculo" parameterType = "beans.Vehiculo">
         UPDATE transito.dbo.Vehiculo SET
         numPlacas = #{numPlacas}, modelo = #{modelo}, marca=#{marca}, año = #{year}, color=#{color}
         WHERE idVehiculo = #{idVehiculo};

@@ -134,8 +134,7 @@ public class VehiculoDAO {
                 || vehiculo.getColor().toString().trim().isEmpty()) {
             return -1;
         }
-        if (vehiculo.getIdConductor() == null
-                || vehiculo.getIdConductor().toString().trim().isEmpty()) {
+        if (vehiculo.getIdConductor() == 0) {
             return -1;
         }
         if (vehiculo.getNumPlacas() == null

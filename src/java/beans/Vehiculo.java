@@ -17,12 +17,12 @@ public class Vehiculo {
     private String marca;
     private String year;
     private String color;
-    private String idConductor;
+    private Integer idConductor;
 
     public Vehiculo() {
     }
 
-    public Vehiculo(Integer idVehiculo, String numPlacas, String modelo, String marca, String year, String color, String idConductor) {
+    public Vehiculo(Integer idVehiculo, String numPlacas, String modelo, String marca, String year, String color, Integer idConductor) {
         this.idVehiculo = idVehiculo;
         this.numPlacas = numPlacas;
         this.modelo = modelo;
@@ -120,14 +120,14 @@ public class Vehiculo {
     /**
      * @return the idConductor
      */
-    public String getIdConductor() {
+    public int getIdConductor() {
         return idConductor;
     }
 
     /**
      * @param idConductor the idConductor to set
      */
-    public void setIdConductor(String idConductor) {
+    public void setIdConductor(int idConductor) {
         this.idConductor = idConductor;
     }
     

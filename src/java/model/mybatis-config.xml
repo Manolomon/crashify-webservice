@@ -24,5 +24,7 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
         <mapper resource="model/mappers/VehiculoMapper.xml"/>
         <mapper resource="model/mappers/ReporteMapper.xml"/>
         <mapper resource="model/mappers/EvidenciaMapper.xml"/>
+        <mapper resource="model/mappers/MarcaMapper.xml"/>
+        <mapper resource="model/mappers/AseguradoraMapper.xml"/>
     </mappers>
 </configuration>

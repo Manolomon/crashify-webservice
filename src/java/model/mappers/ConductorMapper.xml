@@ -33,4 +33,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         WHERE idConductor = #{idConductor}
     </update>
     
+    <!--<update id="registrarConductor" parameterType = "beans.Conductor">
+        {CALL transito.dbo.sp_registrarUsuario(
+            #{nombre, dbcType=VARCHAR, mode=IN},
+            #{rol, dbcType=VARCHAR, mode=IN},
+            #{usuario, dbcType=VARCHAR, mode=IN},
+            #{password, dbcType=VARCHAR, mode=IN},
+            #{idSuperior, dbcType=VARCHAR, mode=IN},
+        )};
+    </update>-->
+    
 </mapper>

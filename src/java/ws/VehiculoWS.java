@@ -52,7 +52,7 @@ public class VehiculoWS {
         Respuesta res = new Respuesta();
         Vehiculo vehiculo = new Vehiculo();
         vehiculo.setColor(color);
-        vehiculo.setIdConductor(idConductor);
+        vehiculo.setIdConductor(Integer.parseInt(idConductor));
         vehiculo.setMarca(marca);
         vehiculo.setModelo(modelo);
         vehiculo.setNumPlacas(numPlacas);
@@ -110,7 +110,7 @@ public class VehiculoWS {
     ){
         Respuesta res = new Respuesta();
         int idVehiculo = Integer.parseInt(idVehiculoString);
-        Vehiculo vehiculo = new Vehiculo(idVehiculo, numPlacas, modelo, marca, year, color, idConductor);
+        Vehiculo vehiculo = new Vehiculo(idVehiculo, numPlacas, modelo, marca, year, color, Integer.parseInt(idConductor));
         int fa = VehiculoDAO.editarVehiculo(vehiculo);
         if (fa > 0) {
             res.setError(false);

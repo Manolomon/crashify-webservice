@@ -30,5 +30,20 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             SELECT numPlacas
             FROM transito.dbo.Reporte_VehiculoAnonimo
         ) AS NUMPLACAS
-    </select>   
+    </select>
+    
+    <resultMap id="ReporteMap" type="beans.Reporte">
+        <id property="idReporte" column="idReporte"/>
+        <result property = "latitud" column ="latitud"/>
+        <result property = "longitud" column ="longitud"/>
+        <result property = "hora" column ="hora"/>
+        <result property = "estado" column ="estado"/>
+        <result property = "idSiniestro" column ="idSiniestro"/>
+    </resultMap>
+    
+    <select id="obtenerDetallesReporte" parameterType = "map" resultType="beans.Reporte" statementType="CALLABLE">
+        {call transito.dbo.sp_obtenerDetalleReporte(
+            #{idReporte, jdbcType=INTEGER, mode=IN}
+        )}
+    </select>  
 </mapper>

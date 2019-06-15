@@ -10,8 +10,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </insert>
     
     <select id  ="obtenerFotosReporte" parameterType = "int" resultType = "beans.Evidencia">
-        SELECT idEvidencia, idReporte, archivo as bytes
-        FROM transito.dbo.Evidencias
+        SELECT idFoto as idEvidencia, idReporte, foto as bytes
+        FROM transito.dbo.Foto
         WHERE idReporte = #{idReporte};
     </select>
     

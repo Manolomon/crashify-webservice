@@ -39,7 +39,7 @@ public class VehiculoWS {
     }
 
     @POST
-    @Path("registrar")
+    @Path("registrarVehiculo")
     @Produces(MediaType.APPLICATION_JSON)
     public Respuesta registrarVehiculo(
             @FormParam("numPlacas") String numPlacas,

@@ -20,6 +20,7 @@ public class Reporte {
     private String descripcion;
     private String placasVehiculos;
     private Integer idSiniestro;
+    private String hora;
 
     public Reporte() {
     }
@@ -141,6 +142,34 @@ public class Reporte {
      */
     public void setPlacasVehiculos(String placasVehiculos) {
         this.placasVehiculos = placasVehiculos;
+    }
+    
+        /**
+     * @return the idSiniestro
+     */
+    public Integer getIdSiniestro() {
+        return idSiniestro;
+    }
+
+    /**
+     * @param idSiniestro the idSiniestro to set
+     */
+    public void setIdSiniestro(Integer idSiniestro) {
+        this.idSiniestro = idSiniestro;
+    }
+
+    /**
+     * @return the hora
+     */
+    public String getHora() {
+        return hora;
+    }
+
+    /**
+     * @param hora the hora to set
+     */
+    public void setHora(String hora) {
+        this.hora = hora;
     }
 
 }

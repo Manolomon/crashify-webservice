@@ -7,6 +7,8 @@ package ws;
 
 import beans.Reporte;
 import beans.Respuesta;
+import java.util.ArrayList;
+import java.util.List;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.Produces;
@@ -77,5 +79,28 @@ public class ReporteWS {
             }
         }
         return res;
+    }
+    
+    @POST
+    @Path("getReportes")
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<Reporte> getReportes(
+            @FormParam("idConductor") String idConductorString
+    ){
+        List<Reporte> list = new ArrayList<>();
+        int idConductor = Integer.parseInt(idConductorString);
+        list = ReporteDAO.getReportes(idConductor);
+        return list;
+    }
+    
+    @POST
+    @Path("obtenerDetallesReporte")
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<Reporte> getDetallesReporte(
+            @FormParam("idReporte") String idReporte
+    ){
+        List<Reporte> list = new ArrayList<>();
+        list = ReporteDAO.getDetallesReporte(Integer.parseInt(idReporte));
+        return list;
     }
 }

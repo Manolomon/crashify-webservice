@@ -7,6 +7,7 @@ package model.dao;
 
 import beans.Reporte;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import model.MyBatisUtils;
 import org.apache.ibatis.session.SqlSession;
@@ -39,6 +40,25 @@ public class ReporteDAO {
             }
         }
         return res;
+    }
+    
+    public static List<Reporte> getDetallesReporte(int idReporte){
+        List<Reporte> list = new ArrayList<>();
+        SqlSession conn = null;
+        try {
+            HashMap<String, Object> param = new HashMap<>();
+            param.put("idReporte", idReporte);
+            conn = MyBatisUtils.getSession();
+            list = conn.selectList("Reporte.obtenerDetallesReporte", param);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }finally{
+            if(conn!=null){
+                conn.close();
+            }
+        }
+        
+        return list;
     }
 
     public static List<Reporte> getReportes(int idConductor) {

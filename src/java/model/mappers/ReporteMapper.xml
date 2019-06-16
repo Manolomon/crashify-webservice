@@ -4,10 +4,16 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="Reporte">
-    <insert id = "registrar" parameterType = "beans.Reporte">
-        INSERT INTO transito.dbo.Reporte (estado, idConductor)
-        VALUES (#{estado},#{idConductor});
-    </insert>
+    <update id = "registrar" parameterType = "beans.Reporte" statementType="CALLABLE">
+        {call transito.dbo.sp_registrarReporte(
+            #{descripcion, jdbcType=STRING, mode=IN},
+            #{idConductor, jdbcType=INTEGER, mode=IN},
+            #{latitud, jdbcType=FLOAT, mode=IN},
+            #{longitud, jdbcType=FLOAT, mode=IN},
+            #{placasVehiculos, jdbcType=STRING, mode=IN},
+            #{resultado, jdbcType=INTEGER, mode=OUT}
+        )}
+    </update>
     
     <select id = "buscarReportes" parameterType = "int" resultType = "beans.ReporteResumido">
         {call transito.dbo.sp_obtenerReportesConductor(

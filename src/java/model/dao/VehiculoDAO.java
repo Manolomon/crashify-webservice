@@ -6,6 +6,7 @@
 package model.dao;
 
 import beans.Vehiculo;
+import beans.VehiculoAnonimo;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -31,6 +32,26 @@ public class VehiculoDAO {
         try {
             conn = MyBatisUtils.getSession();
             res = conn.insert("Vehiculo.registrar", vehiculo);
+            conn.commit();
+            if (res <= 0) {
+                return -3;
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        } finally {
+            if (conn != null) {
+                conn.close();
+            }
+        }
+        return res;
+    }
+    
+    public static int registrarVehiculoAnonimo(VehiculoAnonimo vehiculo) {
+        int res = 1;
+        SqlSession conn = null;
+        try {
+            conn = MyBatisUtils.getSession();
+            res = conn.insert("Vehiculo.registrarAnonimo", vehiculo);
             conn.commit();
             if (res <= 0) {
                 return -3;
@@ -122,8 +143,8 @@ public class VehiculoDAO {
     }
     
     private static int validarVehiculo(Vehiculo vehiculo) {
-        if (vehiculo.getMarca() == null
-                || vehiculo.getMarca().toString().trim().isEmpty()) {
+        if (vehiculo.getIdMarca() == null
+                || vehiculo.getIdMarca() == 0) {
             return -1;
         }
         if (vehiculo.getModelo() == null

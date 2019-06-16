@@ -49,16 +49,15 @@ public class ReporteWS {
             @FormParam ("idConductor") String idConductorString,
             @FormParam ("latitud") String latitud,
             @FormParam ("longitud") String longitud,
-            @FormParam ("placasVehiculos") String placasVehiculos,
-            @FormParam ("hora") String hora
+            @FormParam ("placasVehiculos") String placasVehiculos
     ){
         Respuesta res = new Respuesta();
         int idConductor = Integer.parseInt(idConductorString);
         Reporte reporte = new Reporte();
         reporte.setDescripcion(descripcion);
         reporte.setIdConductor(idConductor);
-        reporte.setLatitud(latitud);
-        reporte.setLongitud(longitud);
+        reporte.setLatitud(Float.parseFloat(latitud));
+        reporte.setLongitud(Float.parseFloat(longitud));
         reporte.setPlacasVehiculos(placasVehiculos);
         reporte.setEstado(1);
         int fa = ReporteDAO.agregarReporte(reporte);

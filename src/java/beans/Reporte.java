@@ -12,8 +12,8 @@ package beans;
 public class Reporte {
 
     private Integer idReporte;
-    private String latitud;
-    private String longitud;
+    private Float latitud;
+    private Float longitud;
     private Integer estado;
     private Integer idConductor;
     private String dictamen;
@@ -21,21 +21,30 @@ public class Reporte {
     private String placasVehiculos;
     private Integer idSiniestro;
     private String hora;
+    private Integer resultado;
 
     public Reporte() {
     }
 
-    public Reporte(String latitud, String longitud, int estado) {
+    public Reporte(Float latitud, Float longitud, Integer estado) {
         this.latitud = latitud;
         this.longitud = longitud;
         this.estado = estado;
     }
 
-    public Reporte(Integer idReporte, String latitud, String longitud, int estado) {
+    public Reporte(Integer idReporte, Float latitud, Float longitud, Integer estado) {
         this.idReporte = idReporte;
         this.latitud = latitud;
         this.longitud = longitud;
         this.estado = estado;
+    }
+
+    public Integer getResultado() {
+        return resultado;
+    }
+
+    public void setResultado(Integer resultado) {
+        this.resultado = resultado;
     }
 
     /**
@@ -52,31 +61,19 @@ public class Reporte {
         this.idReporte = idReporte;
     }
 
-    /**
-     * @return the latitud
-     */
-    public String getLatitud() {
+    public Float getLatitud() {
         return latitud;
     }
 
-    /**
-     * @param latitud the latitud to set
-     */
-    public void setLatitud(String latitud) {
+    public void setLatitud(Float latitud) {
         this.latitud = latitud;
     }
 
-    /**
-     * @return the longitud
-     */
-    public String getLongitud() {
+    public Float getLongitud() {
         return longitud;
     }
 
-    /**
-     * @param longitud the longitud to set
-     */
-    public void setLongitud(String longitud) {
+    public void setLongitud(Float longitud) {
         this.longitud = longitud;
     }
 

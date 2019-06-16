@@ -7,6 +7,7 @@ package ws;
 
 import beans.Respuesta;
 import beans.Vehiculo;
+import beans.VehiculoAnonimo;
 import java.util.ArrayList;
 import java.util.List;
 import javax.ws.rs.core.Context;
@@ -53,11 +54,60 @@ public class VehiculoWS {
         Vehiculo vehiculo = new Vehiculo();
         vehiculo.setColor(color);
         vehiculo.setIdConductor(Integer.parseInt(idConductor));
-        vehiculo.setMarca(marca);
+        vehiculo.setIdMarca(Integer.parseInt(marca));
         vehiculo.setModelo(modelo);
         vehiculo.setNumPlacas(numPlacas);
         vehiculo.setYear(year);
         int fa = VehiculoDAO.registrarVehiculo(vehiculo);
+        if (fa > 0) {
+            res.setError(false);
+            res.setErrorcode(0);
+            res.setMensaje("Vehículo registrado exitosamente");
+        } else {
+            switch (fa) {
+                case -1:
+                    res.setError(true);
+                    res.setErrorcode(1);
+                    res.setMensaje("Error al registrar Vehículo, datos no válidos");
+                    break;
+                case -2:
+                    res.setError(true);
+                    res.setErrorcode(2);
+                    res.setMensaje("Error al registrar Vehículo,"
+                            + " ya hay un vehiculo registrado con las mismas placas");
+                    break;
+                default:
+                    res.setError(true);
+                    res.setErrorcode(3);
+                    res.setMensaje("Error de conexión");
+                    break;
+            }
+        }
+        return res;
+    }
+    
+    @POST
+    @Path("registrarVehiculoAnonimo")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Respuesta registrarVehiculoAnonimo(
+            @FormParam("numPlacas") String numPlacas,
+            @FormParam("marca") String marca,
+            @FormParam("modelo") String modelo,
+            @FormParam("color") String color,
+            @FormParam("año") String year,
+            @FormParam("numPoliza") String numPoliza,
+            @FormParam("aseguradora") String idAseguradora
+    ) {
+        Respuesta res = new Respuesta();
+        VehiculoAnonimo vehiculo = new VehiculoAnonimo();
+        vehiculo.setColor(color);
+        vehiculo.setIdMarca(Integer.parseInt(marca));
+        vehiculo.setModelo(modelo);
+        vehiculo.setNumPlacas(numPlacas);
+        vehiculo.setYear(year);
+        vehiculo.setNumPoliza(numPoliza);
+        vehiculo.setIdAseguradora(Integer.parseInt(idAseguradora));
+        int fa = VehiculoDAO.registrarVehiculoAnonimo(vehiculo);
         if (fa > 0) {
             res.setError(false);
             res.setErrorcode(0);
@@ -96,13 +146,15 @@ public class VehiculoWS {
         return VehiculoDAO.getVehiculos(idConductor);
     }
     
+    
+    
     @POST
     @Path("editarVehiculo")
     @Produces(MediaType.APPLICATION_JSON)
     public Respuesta editarVehiculo(
             @FormParam("idVehiculo") String idVehiculoString,
             @FormParam("numPlacas") String numPlacas,
-            @FormParam("marca") String marca,
+            @FormParam("marca") Integer marca,
             @FormParam("modelo") String modelo,
             @FormParam("color") String color,
             @FormParam("año") String year,

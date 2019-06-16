@@ -1,75 +1,53 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package beans;
 
 /**
  *
- * @author Juan Carlos
+ * @author Daniel Escamilla
  */
-public class Vehiculo {
-
+public class VehiculoAnonimo {
     private Integer idVehiculo;
     private String numPlacas;
     private String modelo;
     private Integer idMarca;
     private String year;
     private String color;
-    private Integer idConductor;
+    private String numPoliza;
+    private Integer idAseguradora;
 
-    public Vehiculo() {
-    }
-
-    public Vehiculo(Integer idVehiculo, String numPlacas, String modelo, Integer idMarca, String year, String color, Integer idConductor) {
+    public VehiculoAnonimo(Integer idVehiculo, String numPlacas, String modelo, Integer idMarca, String year, String color, String numPoliza, Integer idAseguradora) {
         this.idVehiculo = idVehiculo;
         this.numPlacas = numPlacas;
         this.modelo = modelo;
         this.idMarca = idMarca;
         this.year = year;
         this.color = color;
-        this.idConductor = idConductor;
+        this.numPoliza = numPoliza;
+        this.idAseguradora = idAseguradora;
     }
-    
-    /**
-     * @return the idVehiculo
-     */
+
+    public VehiculoAnonimo() {
+    }
+
     public Integer getIdVehiculo() {
         return idVehiculo;
     }
 
-    /**
-     * @param idVehiculo the idVehiculo to set
-     */
     public void setIdVehiculo(Integer idVehiculo) {
         this.idVehiculo = idVehiculo;
     }
 
-    /**
-     * @return the numPlacas
-     */
     public String getNumPlacas() {
         return numPlacas;
     }
 
-    /**
-     * @param numPlacas the numPlacas to set
-     */
     public void setNumPlacas(String numPlacas) {
         this.numPlacas = numPlacas;
     }
 
-    /**
-     * @return the modelo
-     */
     public String getModelo() {
         return modelo;
     }
 
-    /**
-     * @param modelo the modelo to set
-     */
     public void setModelo(String modelo) {
         this.modelo = modelo;
     }
@@ -82,48 +60,37 @@ public class Vehiculo {
         this.idMarca = idMarca;
     }
 
-    /**
-     * @return the year
-     */
     public String getYear() {
         return year;
     }
 
-    /**
-     * @param year the year to set
-     */
     public void setYear(String year) {
         this.year = year;
     }
 
-    /**
-     * @return the color
-     */
     public String getColor() {
         return color;
     }
 
-    /**
-     * @param color the color to set
-     */
     public void setColor(String color) {
         this.color = color;
     }
 
-    /**
-     * @return the idConductor
-     */
-    public int getIdConductor() {
-        return idConductor;
+    public String getNumPoliza() {
+        return numPoliza;
     }
 
-    /**
-     * @param idConductor the idConductor to set
-     */
-    public void setIdConductor(int idConductor) {
-        this.idConductor = idConductor;
+    public void setNumPoliza(String numPoliza) {
+        this.numPoliza = numPoliza;
     }
-    
+
+    public Integer getIdAseguradora() {
+        return idAseguradora;
+    }
+
+    public void setIdAseguradora(Integer idAseguradora) {
+        this.idAseguradora = idAseguradora;
+    }
     
     
 }

@@ -29,7 +29,7 @@ public class ReporteDAO {
         }
         try {
             conn = MyBatisUtils.getSession();
-            res = conn.insert("Reporte.registrar", reporte);
+            conn.update("Reporte.registrar", reporte);
             conn.commit();
             if (res < 0) {
                 return -2;

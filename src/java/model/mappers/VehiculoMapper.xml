@@ -5,8 +5,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 <mapper namespace="Vehiculo">
     <insert id = "registrar" parameterType = "beans.Vehiculo">
-        INSERT INTO transito.dbo.Vehiculo (numPlacas, modelo, marca, año, color)
-        VALUES (#{numPlacas},#{modelo},#{marca},#{year},#{color});
+        INSERT INTO transito.dbo.Vehiculo (numPlacas, modelo, idMarca, año, color)
+        VALUES (#{numPlacas},#{modelo},#{idMarca},#{year},#{color});
+    </insert>
+    
+    <insert id = "registrarAnonimo" parameterType = "beans.VehiculoAnonimo">
+        INSERT INTO transito.dbo.VehiculoAnonimo (numPlacas, modelo, idMarca, año, color, numPoliza,idAseguradora)
+        VALUES (#{numPlacas},#{modelo},#{marca},#{year},#{color},#{numPoliza},#{idAseguradora});
     </insert>
     
     <select id = "buscarVehiculo" parameterType = "string" resultType = "beans.Vehiculo">

@@ -12,7 +12,7 @@ package beans;
 public class Conductor {
 
     private Integer idConductor;
-    private Integer idEstatus;
+    private Integer estatus;
     private String nombre;
     private String fechaNacimiento;
     private String numLicencia;
@@ -49,18 +49,18 @@ public class Conductor {
 
     /**
      *
-     * @return the idEstatus
+     * @return the estatus
      */
-    public Integer getIdEstatus() {
-        return this.idEstatus;
+    public Integer getEstatus() {
+        return this.estatus;
     }
 
     /**
      *
-     * @param idEstatus the idEstatus to set
+     * @param estatus the estatus to set
      */
-    public void setIdEstatus(Integer idEstatus) {
-        this.idEstatus = idEstatus;
+    public void setEstatus(Integer estatus) {
+        this.estatus = estatus;
     }
 
     /**

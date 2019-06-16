@@ -122,8 +122,7 @@ public class VehiculoDAO {
     }
     
     private static int validarVehiculo(Vehiculo vehiculo) {
-        if (vehiculo.getMarca() == null
-                || vehiculo.getMarca().toString().trim().isEmpty()) {
+        if (vehiculo.getIdMarca() == 0) {
             return -1;
         }
         if (vehiculo.getModelo() == null
@@ -132,9 +131,6 @@ public class VehiculoDAO {
         }
         if (vehiculo.getColor() == null
                 || vehiculo.getColor().toString().trim().isEmpty()) {
-            return -1;
-        }
-        if (vehiculo.getIdConductor() == 0) {
             return -1;
         }
         if (vehiculo.getNumPlacas() == null

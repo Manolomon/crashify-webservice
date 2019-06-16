@@ -43,17 +43,17 @@ public class VehiculoWS {
     @Produces(MediaType.APPLICATION_JSON)
     public Respuesta registrarVehiculo(
             @FormParam("numPlacas") String numPlacas,
-            @FormParam("marca") String marca,
+            @FormParam("idMarca") String idMarca,
             @FormParam("modelo") String modelo,
             @FormParam("color") String color,
             @FormParam("año") String year,
-            @FormParam("idConductor") String idConductor
+            @FormParam("numPoliza") String numPoliza
     ) {
         Respuesta res = new Respuesta();
         Vehiculo vehiculo = new Vehiculo();
         vehiculo.setColor(color);
-        vehiculo.setIdConductor(Integer.parseInt(idConductor));
-        vehiculo.setMarca(marca);
+        vehiculo.setNumPoliza(numPoliza);
+        vehiculo.setIdMarca(Integer.parseInt(idMarca));
         vehiculo.setModelo(modelo);
         vehiculo.setNumPlacas(numPlacas);
         vehiculo.setYear(year);
@@ -102,15 +102,15 @@ public class VehiculoWS {
     public Respuesta editarVehiculo(
             @FormParam("idVehiculo") String idVehiculoString,
             @FormParam("numPlacas") String numPlacas,
-            @FormParam("marca") String marca,
+            @FormParam("marca") String idMarca,
             @FormParam("modelo") String modelo,
             @FormParam("color") String color,
             @FormParam("año") String year,
-            @FormParam("idConductor") String idConductor
+            @FormParam("numPoliza") String numPoliza
     ){
         Respuesta res = new Respuesta();
         int idVehiculo = Integer.parseInt(idVehiculoString);
-        Vehiculo vehiculo = new Vehiculo(idVehiculo, numPlacas, modelo, marca, year, color, Integer.parseInt(idConductor));
+        Vehiculo vehiculo = new Vehiculo(idVehiculo, numPlacas, modelo, Integer.parseInt(idMarca), year, color, numPoliza);
         int fa = VehiculoDAO.editarVehiculo(vehiculo);
         if (fa > 0) {
             res.setError(false);

@@ -6,6 +6,8 @@
 package model.dao;
 
 import beans.Reporte;
+import beans.ReporteDictamen;
+import beans.ReporteResumido;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -42,14 +44,12 @@ public class ReporteDAO {
         return res;
     }
     
-    public static List<Reporte> getDetallesReporte(int idReporte){
-        List<Reporte> list = new ArrayList<>();
+    public static ReporteDictamen getDetallesReporte(int idReporte){
+        ReporteDictamen reporte = new ReporteDictamen();
         SqlSession conn = null;
         try {
-            HashMap<String, Object> param = new HashMap<>();
-            param.put("idReporte", idReporte);
             conn = MyBatisUtils.getSession();
-            list = conn.selectList("Reporte.obtenerDetallesReporte", param);
+            reporte = conn.selectOne("Reporte.obtenerDetallesReporte", idReporte);
         } catch (Exception ex) {
             ex.printStackTrace();
         }finally{
@@ -58,11 +58,11 @@ public class ReporteDAO {
             }
         }
         
-        return list;
+        return reporte;
     }
 
-    public static List<Reporte> getReportes(int idConductor) {
-        List<Reporte> list = new ArrayList<>();
+    public static List<ReporteResumido> getReportes(int idConductor) {
+        List<ReporteResumido> list = new ArrayList<>();
         SqlSession conn = null;
         try {
             conn = MyBatisUtils.getSession();

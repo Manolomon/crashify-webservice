@@ -9,17 +9,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         VALUES (#{estado},#{idConductor});
     </insert>
     
-    <select id = "buscarReportes" parameterType = "int" resultType = "beans.Reporte">
-        SELECT a.idReporte, a.idConductor, a.idSiniestro, a.estado, a.comentario as descripcion, b.latitud, b.longitud, b.dictamen
-        FROM transito.dbo.Reporte a
-        INNER JOIN (
-            SELECT c.idSiniestro, c.longitud, c.latitud, d.dictamen
-            FROM transito.dbo.Siniestro c
-            INNER JOIN transito.dbo.Dictamen d
-            ON c.idDictamen = d.idDictamen
-        ) b
-        ON a.idSiniestro = b.idSiniestro
-        WHERE a.idConductor = #{idConductor};
+    <select id = "buscarReportes" parameterType = "int" resultType = "beans.ReporteResumido">
+        {call transito.dbo.sp_obtenerReportesConductor(
+            #{idconductor, jdbcType=INTEGER, mode=IN}
+        )}
     </select>
     
     <select id="buscarPlacasReporte" parameterType = "int" resultType = "map">
@@ -41,8 +34,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property = "idSiniestro" column ="idSiniestro"/>
     </resultMap>
     
-    <select id="obtenerDetallesReporte" parameterType = "map" resultType="beans.Reporte" statementType="CALLABLE">
-        {call transito.dbo.sp_obtenerDetalleReporte(
+    <select id="obtenerDetallesReporte" parameterType = "map" resultType="beans.ReporteDictamen" statementType="CALLABLE">
+        {call transito.dbo.sp_obtenerDetalleReporteConductor(
             #{idReporte, jdbcType=INTEGER, mode=IN}
         )}
     </select>  

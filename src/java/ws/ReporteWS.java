@@ -6,6 +6,8 @@
 package ws;
 
 import beans.Reporte;
+import beans.ReporteDictamen;
+import beans.ReporteResumido;
 import beans.Respuesta;
 import java.util.ArrayList;
 import java.util.List;
@@ -84,23 +86,23 @@ public class ReporteWS {
     @POST
     @Path("getReportes")
     @Produces(MediaType.APPLICATION_JSON)
-    public List<Reporte> getReportes(
+    public List<ReporteResumido> getReportes(
             @FormParam("idConductor") String idConductorString
     ){
-        List<Reporte> list = new ArrayList<>();
+        List<ReporteResumido> list = new ArrayList<>();
         int idConductor = Integer.parseInt(idConductorString);
         list = ReporteDAO.getReportes(idConductor);
         return list;
     }
     
     @POST
-    @Path("obtenerDetallesReporte")
+    @Path("obtenerDetalleReporte")
     @Produces(MediaType.APPLICATION_JSON)
-    public List<Reporte> getDetallesReporte(
+    public ReporteDictamen getDetallesReporte(
             @FormParam("idReporte") String idReporte
     ){
-        List<Reporte> list = new ArrayList<>();
-        list = ReporteDAO.getDetallesReporte(Integer.parseInt(idReporte));
-        return list;
+        ReporteDictamen reporte = new ReporteDictamen();
+        reporte = ReporteDAO.getDetallesReporte(Integer.parseInt(idReporte));
+        return reporte;
     }
 }

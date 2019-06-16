@@ -5,8 +5,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 <mapper namespace="Conductor">
     <insert id = "registrar" parameterType = "beans.Conductor">
-        INSERT INTO transito.dbo.Conductor (nombre, fechaNacimiento, telefono, numLicencia, password, idEstatus, tokenAcceso)
-        VALUES (#{nombre},#{fechaNacimiento}, #{telefono}, #{numLicencia}, #{password},#{idEstatus},#{tokenAcceso});
+        INSERT INTO transito.dbo.Conductor (nombre, fechaNacimiento, telefono, numLicencia, password, estatus, tokenAcceso)
+        VALUES (#{nombre},#{fechaNacimiento}, #{telefono}, #{numLicencia}, #{password},#{estatus},#{tokenAcceso});
     </insert>
     
     <select id = "buscarTelefono" parameterType = "string" resultType = "beans.Conductor">
@@ -16,15 +16,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </select>
     
     <select id = "iniciarSesion" parameterType = "map" resultType = "beans.Conductor">
-        SELECT idConductor, nombre, password, telefono, fechaNacimiento, idEstatus, numLicencia
+        SELECT idConductor, nombre, password, telefono, fechaNacimiento, estatus, numLicencia
         FROM transito.dbo.Conductor
-        WHERE telefono = #{telefono} AND password = #{password} AND idEstatus = 2;
+        WHERE telefono = #{telefono} AND password = #{password} AND estatus = 2;
     </select>
     
     <select id = "buscarTelefonoNoValidado" parameterType = "string" resultType = "beans.Conductor">
-        SELECT idConductor, nombre, password, telefono, fechaNacimiento, idEstatus, numLicencia
+        SELECT idConductor, nombre, password, telefono, fechaNacimiento, estatus, numLicencia
         FROM transito.dbo.Conductor
-        WHERE telefono = #{telefono} AND idEstatus = '1';
+        WHERE telefono = #{telefono} AND estatus = '1';
     </select>
     
     <update id = "validarConductor" parameterType = "beans.Conductor">

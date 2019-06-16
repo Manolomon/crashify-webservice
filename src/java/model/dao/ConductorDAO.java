@@ -63,7 +63,7 @@ public class ConductorDAO {
             token += generarParteToken();
         }
         conductor.setTokenAcceso(token);
-        conductor.setIdEstatus(1);
+        conductor.setEstatus(1);
         try {
             conn = MyBatisUtils.getSession();
             res = conn.insert("Conductor.registrar", conductor);

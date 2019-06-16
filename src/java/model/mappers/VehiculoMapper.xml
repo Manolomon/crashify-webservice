@@ -5,8 +5,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 <mapper namespace="Vehiculo">
     <insert id = "registrar" parameterType = "beans.Vehiculo">
-        INSERT INTO transito.dbo.Vehiculo (numPlacas, modelo, idMarca, año, color)
-        VALUES (#{numPlacas},#{modelo},#{idMarca},#{year},#{color});
+        INSERT INTO transito.dbo.Vehiculo (numPlacas, modelo, idMarca, año, color, numPoliza)
+        VALUES (#{numPlacas},#{modelo},#{idMarca},#{year},#{color},#{numPoliza});
     </insert>
     
     <insert id = "registrarAnonimo" parameterType = "beans.VehiculoAnonimo">
@@ -15,34 +15,36 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </insert>
     
     <select id = "buscarVehiculo" parameterType = "string" resultType = "beans.Vehiculo">
-        SELECT idVehiculo, numPlacas, modelo, marca, año AS year, color, idConductor
+        SELECT numPlacas, modelo, idMarca, año AS year, color,numPoliza
         FROM transito.dbo.Vehiculo
         WHERE numPlacas = #{numPLacas};
     </select>
     
     <select id = "getVehiculosConductor" parameterType = "int" resultType = "beans.Vehiculo">
-        SELECT idVehiculo, numPlacas, modelo, marca, año AS year, color, idConductor
-        FROM transito.dbo.Vehiculo
-        WHERE idConductor = #{idConductor};
+        SELECT a.numPlacas, a.modelo, a.idMarca, a.año AS year, a.color, a.numPoliza
+        FROM transito.dbo.Vehiculo a
+        INNER JOIN transito.dbo.Vehiculo_Conductor b
+        ON a.numPlacas = b.numPlacas
+        WHERE b.idConductor = #{idConductor};
     </select>
     
     <select id = "getVehiculosReporte" parameterType = "int" resultType = "beans.Vehiculo">
-        SELECT a.idVehiculo, a.numPlacas, a.modelo, a.marca, a.año AS year, a.color, a.idConductor
+        SELECT a.numPlacas, a.modelo, a.idMarca, a.año AS year, a.color, a.numPoliza
         FROM transito.dbo.Vehiculo a 
-        INNER JOIN transito.dbo.Reportes_Vehiculos b
-        ON a.idVehiculo = b.idVehiculo
-        WHERE idConductor = #{idConductor};
+        INNER JOIN transito.dbo.Reporte_Vehiculo b
+        ON a.numPlacas = b.numPlacas
+        WHERE b.idReporte = #{idReporte}
     </select>
     
     <update id = "editarVehiculo" parameterType = "beans.Vehiculo">
         UPDATE transito.dbo.Vehiculo SET
-        numPlacas = #{numPlacas}, modelo = #{modelo}, marca=#{marca}, año = #{year}, color=#{color}
-        WHERE idVehiculo = #{idVehiculo};
+        modelo = #{modelo}, año = #{year}, color=#{color}, numPoliza = #{numPoliza}
+        WHERE numPlacas = #{numPlacas};
     </update>
     
-    <delete id = "eliminarVehiculo" parameterType = "int">
+    <delete id = "eliminarVehiculo" parameterType = "string">
         DELETE FROM transito.dbo.Vehiculo
-        WHERE idVehiculo = #{idVehiculo};
+        WHERE numPlacas = #{numPlacas};
     </delete>
     
 </mapper>

@@ -17,19 +17,19 @@ public class Vehiculo {
     private Integer idMarca;
     private String year;
     private String color;
-    private Integer idConductor;
+    private String numPoliza;
 
     public Vehiculo() {
     }
 
-    public Vehiculo(Integer idVehiculo, String numPlacas, String modelo, Integer idMarca, String year, String color, Integer idConductor) {
+    public Vehiculo(Integer idVehiculo, String numPlacas, String modelo, int idMarca, String year, String color, String numPoliza) {
         this.idVehiculo = idVehiculo;
         this.numPlacas = numPlacas;
         this.modelo = modelo;
         this.idMarca = idMarca;
         this.year = year;
         this.color = color;
-        this.idConductor = idConductor;
+        this.numPoliza = numPoliza;
     }
     
     /**
@@ -74,11 +74,17 @@ public class Vehiculo {
         this.modelo = modelo;
     }
 
-    public Integer getIdMarca() {
+    /**
+     * @return the idMarca
+     */
+    public int getIdMarca() {
         return idMarca;
     }
 
-    public void setIdMarca(Integer idMarca) {
+    /**
+     * @param idMarca the idMarca to set
+     */
+    public void setIdMarca(int idMarca) {
         this.idMarca = idMarca;
     }
 
@@ -109,21 +115,13 @@ public class Vehiculo {
     public void setColor(String color) {
         this.color = color;
     }
-
-    /**
-     * @return the idConductor
-     */
-    public int getIdConductor() {
-        return idConductor;
-    }
-
-    /**
-     * @param idConductor the idConductor to set
-     */
-    public void setIdConductor(int idConductor) {
-        this.idConductor = idConductor;
+    
+    public String getNumPoliza(){
+        return this.numPoliza;
     }
     
-    
+    public void setNumPoliza(String numPoliza){
+        this.numPoliza = numPoliza;
+    }
     
 }

@@ -29,6 +29,7 @@ public class Vehiculo {
         this.idMarca = idMarca;
         this.year = year;
         this.color = color;
+        this.numPoliza = numPoliza;
     }
     
     
@@ -117,7 +118,7 @@ public class Vehiculo {
     }
     
     public String getNumPoliza(){
-        return this.numPlacas;
+        return this.numPoliza;
     }
     
     public void setNumPoliza(String numPoliza){

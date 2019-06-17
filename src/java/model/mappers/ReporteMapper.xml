@@ -6,11 +6,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <mapper namespace="Reporte">
     <update id = "registrar" parameterType = "beans.Reporte" statementType="CALLABLE">
         {call transito.dbo.sp_registrarReporte(
-            #{descripcion, jdbcType=STRING, mode=IN},
+            #{descripcion, jdbcType=VARCHAR, mode=IN},
             #{idConductor, jdbcType=INTEGER, mode=IN},
             #{latitud, jdbcType=FLOAT, mode=IN},
             #{longitud, jdbcType=FLOAT, mode=IN},
-            #{placasVehiculos, jdbcType=STRING, mode=IN},
+            #{placasVehiculos, jdbcType=VARCHAR, mode=IN},
             #{resultado, jdbcType=INTEGER, mode=OUT}
         )}
     </update>
@@ -31,16 +31,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         ) AS NUMPLACAS
     </select>
     
-    <resultMap id="ReporteMap" type="beans.Reporte">
-        <id property="idReporte" column="idReporte"/>
-        <result property = "latitud" column ="latitud"/>
-        <result property = "longitud" column ="longitud"/>
-        <result property = "hora" column ="hora"/>
-        <result property = "estado" column ="estado"/>
-        <result property = "idSiniestro" column ="idSiniestro"/>
-    </resultMap>
-    
-    <select id="obtenerDetallesReporte" parameterType = "map" resultType="beans.ReporteDictamen" statementType="CALLABLE">
+    <select id="obtenerDetallesReporte" parameterType = "int" resultType="beans.ReporteDictamen" statementType="CALLABLE">
         {call transito.dbo.sp_obtenerDetalleReporteConductor(
             #{idReporte, jdbcType=INTEGER, mode=IN}
         )}

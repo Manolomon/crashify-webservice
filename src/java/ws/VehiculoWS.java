@@ -8,6 +8,7 @@ package ws;
 import beans.Respuesta;
 import beans.Vehiculo;
 import beans.VehiculoAnonimo;
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 import javax.ws.rs.core.Context;
@@ -47,18 +48,33 @@ public class VehiculoWS {
             @FormParam("idMarca") String idMarca,
             @FormParam("modelo") String modelo,
             @FormParam("color") String color,
-            @FormParam("año") String year,
-            @FormParam("numPoliza") String numPoliza
+            @FormParam("year") String year,
+            @FormParam("numPoliza") String numPoliza,
+            @FormParam("idAseguradora") String idAseguradora,
+            @FormParam("fechaVencimiento") String fechaVencimientoString
     ) {
         Respuesta res = new Respuesta();
         Vehiculo vehiculo = new Vehiculo();
         vehiculo.setColor(color);
-        vehiculo.setNumPoliza(numPoliza);
         vehiculo.setIdMarca(Integer.parseInt(idMarca));
         vehiculo.setModelo(modelo);
         vehiculo.setNumPlacas(numPlacas);
         vehiculo.setYear(year);
-        int fa = VehiculoDAO.registrarVehiculo(vehiculo);
+        Date fechaVencimiento = Date.valueOf(fechaVencimientoString);
+        if (idAseguradora != null && !idAseguradora.toString().trim().isEmpty()) {
+            if (numPoliza != null && !numPoliza.toString().trim().isEmpty()) {
+                vehiculo.setNumPoliza(numPoliza);
+                vehiculo.setIdAseguradora(Integer.parseInt(idAseguradora));
+            } else {
+                res.setError(true);
+                res.setErrorcode(7);
+                res.setMensaje("Porfavor ingrese su numero de póliza");
+                return res;
+            }
+        }
+
+        int fa = VehiculoDAO.registrarVehiculo(vehiculo, fechaVencimiento);
+        System.out.println(fa);
         if (fa > 0) {
             res.setError(false);
             res.setErrorcode(0);
@@ -83,18 +99,19 @@ public class VehiculoWS {
                     break;
             }
         }
-        return res;
-    }
     
-    @POST
-    @Path("registrarVehiculoAnonimo")
-    @Produces(MediaType.APPLICATION_JSON)
-    public Respuesta registrarVehiculoAnonimo(
+    return res ;
+}
+
+@POST
+        @Path("registrarVehiculoAnonimo")
+        @Produces(MediaType.APPLICATION_JSON)
+        public Respuesta registrarVehiculoAnonimo(
             @FormParam("numPlacas") String numPlacas,
             @FormParam("marca") String marca,
             @FormParam("modelo") String modelo,
             @FormParam("color") String color,
-            @FormParam("año") String year,
+            @FormParam("year") String year,
             @FormParam("numPoliza") String numPoliza,
             @FormParam("aseguradora") String idAseguradora
     ) {
@@ -136,9 +153,9 @@ public class VehiculoWS {
     }
     
     @POST
-    @Path("getVehiculos")
-    @Produces(MediaType.APPLICATION_JSON)
-    public List<Vehiculo> getVehiculos(
+        @Path("getVehiculos")
+        @Produces(MediaType.APPLICATION_JSON)
+        public List<Vehiculo> getVehiculos(
             @FormParam("idConductor") String idConductorString
     ){
         List<Vehiculo> list = new ArrayList<>();
@@ -149,15 +166,15 @@ public class VehiculoWS {
     
     
     @POST
-    @Path("editarVehiculo")
-    @Produces(MediaType.APPLICATION_JSON)
-    public Respuesta editarVehiculo(
+        @Path("editarVehiculo")
+        @Produces(MediaType.APPLICATION_JSON)
+        public Respuesta editarVehiculo(
             @FormParam("idVehiculo") String idVehiculoString,
             @FormParam("numPlacas") String numPlacas,
             @FormParam("marca") String idMarca,
             @FormParam("modelo") String modelo,
             @FormParam("color") String color,
-            @FormParam("año") String year,
+            @FormParam("year") String year,
             @FormParam("numPoliza") String numPoliza
     ){
         Respuesta res = new Respuesta();
@@ -192,9 +209,9 @@ public class VehiculoWS {
     }
     
     @POST
-    @Path("getVehiculosReporte")
-    @Produces(MediaType.APPLICATION_JSON)
-    public List<Vehiculo> getVehiculosReporte(
+        @Path("getVehiculosReporte")
+        @Produces(MediaType.APPLICATION_JSON)
+        public List<Vehiculo> getVehiculosReporte(
             @FormParam("idReporte") String idReporteString
     ){
         List<Vehiculo> list = new ArrayList<>();

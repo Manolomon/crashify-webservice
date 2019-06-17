@@ -8,6 +8,7 @@ package ws;
 import beans.Conductor;
 import beans.Respuesta;
 import beans.RespuestaValidacion;
+import java.sql.Date;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.Produces;
@@ -49,7 +50,7 @@ public class ConductorWS {
             @FormParam("numeroLicencia") String numeroLicencia
     ) {
         Respuesta res = new Respuesta();
-        Conductor conductor = new Conductor(nombre, fechaNacimiento,
+        Conductor conductor = new Conductor(nombre, Date.valueOf(fechaNacimiento),
                 numeroLicencia, telefono, password);
         int fa = ConductorDAO.registrarConductor(conductor);
         if (fa > 0) {

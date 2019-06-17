@@ -5,6 +5,8 @@
  */
 package beans;
 
+import java.sql.Date;
+
 /**
  *
  * @author Juan Carlos
@@ -14,7 +16,7 @@ public class Conductor {
     private Integer idConductor;
     private Integer estatus;
     private String nombre;
-    private String fechaNacimiento;
+    private Date fechaNacimiento;
     private String numLicencia;
     private String telefono;
     private String password;
@@ -23,7 +25,7 @@ public class Conductor {
     public Conductor() {
     }
 
-    public Conductor(Integer idConductor, String nombre, String fechaNacimiento, String numLicencia, String telefono, String password) {
+    public Conductor(Integer idConductor, String nombre, Date fechaNacimiento, String numLicencia, String telefono, String password) {
         this.idConductor = idConductor;
         this.nombre = nombre;
         this.fechaNacimiento = fechaNacimiento;
@@ -32,7 +34,7 @@ public class Conductor {
         this.password = password;
     }
 
-    public Conductor(String nombre, String fechaNacimiento, String numLicencia, String telefono, String password) {
+    public Conductor(String nombre, Date fechaNacimiento, String numLicencia, String telefono, String password) {
         this.nombre = nombre;
         this.fechaNacimiento = fechaNacimiento;
         this.numLicencia = numLicencia;
@@ -87,14 +89,14 @@ public class Conductor {
     /**
      * @return the fechaNacimiento
      */
-    public String getFechaNacimiento() {
+    public Date getFechaNacimiento() {
         return fechaNacimiento;
     }
 
     /**
      * @param fechaNacimiento the fechaNacimiento to set
      */
-    public void setFechaNacimiento(String fechaNacimiento) {
+    public void setFechaNacimiento(Date fechaNacimiento) {
         this.fechaNacimiento = fechaNacimiento;
     }
 

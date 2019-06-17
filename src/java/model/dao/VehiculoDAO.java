@@ -7,7 +7,11 @@ package model.dao;
 
 import beans.Vehiculo;
 import beans.VehiculoAnonimo;
+import beans.VehiculoData;
+import java.sql.Date;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Objects;
 import model.MyBatisUtils;
@@ -19,10 +23,11 @@ import org.apache.ibatis.session.SqlSession;
  */
 public class VehiculoDAO {
 
-    public static int registrarVehiculo(Vehiculo vehiculo) {
+    public static int registrarVehiculo(Vehiculo vehiculo, Date fechaVencimiento) {
         int res = 0;
         SqlSession conn = null;
         res = validarVehiculo(vehiculo);
+        LinkedHashMap<String, Object> map = new LinkedHashMap<>();
         if (res != 0) {
             return res;
         }
@@ -30,13 +35,27 @@ public class VehiculoDAO {
             return -2;
         }
         try {
+            VehiculoData data = new VehiculoData();
+            data.setColor(vehiculo.getColor());
+            data.setFechaVencimiento(fechaVencimiento);
+            data.setIdAseguradora(vehiculo.getIdAseguradora());
+            data.setIdMarca(vehiculo.getIdMarca());
+            data.setModelo(vehiculo.getModelo());
+            data.setNumPlacas(vehiculo.getNumPlacas());
+            data.setNumPoliza(vehiculo.getNumPoliza());
+            data.setYear(vehiculo.getYear());
+            
+            System.out.println(map);
             conn = MyBatisUtils.getSession();
-            res = conn.insert("Vehiculo.registrar", vehiculo);
+            conn.update("Vehiculo.registrar", map);
             conn.commit();
+            res = data.getFa();
             if (res <= 0) {
                 return -3;
             }
         } catch (Exception ex) {
+            System.out.println(map);
+            System.out.println(ex.getLocalizedMessage());
             ex.printStackTrace();
         } finally {
             if (conn != null) {

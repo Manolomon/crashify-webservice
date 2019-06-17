@@ -113,7 +113,7 @@ public class ConductorDAO {
             respuestaValidacion.setError(error);
         } else {
             conductor = buscarConductor(telefono);
-            if (conductor.getIdConductor() != 0) {
+            if (conductor.getIdConductor() != null) {
                 SqlSession conn = null;
                 try {
                     conn = MyBatisUtils.getSession();
@@ -129,6 +129,9 @@ public class ConductorDAO {
             }
             if (filas > 0) {
                 conductor = ConductorDAO.buscarConductor(telefono);
+                error.setError(false);
+                error.setErrorcode(200);
+                error.setMensaje("Conductor validado");
                 respuestaValidacion.setConductor(conductor);
             } else {
                 error.setError(true);
@@ -162,7 +165,7 @@ public class ConductorDAO {
             error.setErrorcode(2);
             error.setMensaje("Ingrese token");
             respuesta.setError(error);
-        } else if (buscarConductor(telefono).getIdConductor() == 0) {
+        } else if (buscarConductor(telefono).getIdConductor() == null) {
             error.setError(true);
             error.setErrorcode(3);
             error.setMensaje("Error de registro, no existe un conductor con ese telefono");
@@ -183,7 +186,11 @@ public class ConductorDAO {
                 }
             }
 
-            if (conductor.getIdConductor() != 0) {
+            if (conductor.getIdConductor()!=null) {
+                error.setError(false);
+                error.setErrorcode(201);
+                error.setMensaje("Conductor registrado");
+                respuesta.setError(error);
                 respuesta.setConductor(conductor);
             } else {
                 error.setError(true);
@@ -275,8 +282,12 @@ public class ConductorDAO {
         if (telefono != null && !telefono.isEmpty()) {
             SqlSession conn = null;
             try {
+                Conductor conductorAux = new Conductor();
                 conn = MyBatisUtils.getSession();
-                conductor = conn.selectOne("Conductor.buscarTelefono", telefono);
+                conductorAux = conn.selectOne("Conductor.buscarTelefono", telefono);
+                if(conductorAux.getIdConductor()!=null){
+                    conductor = conductorAux;
+                }
             } catch (Exception ex) {
                 ex.printStackTrace();
             } finally {

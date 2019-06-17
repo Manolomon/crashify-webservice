@@ -18,7 +18,8 @@ public class Vehiculo {
     private String year;
     private String color;
     private String numPoliza;
-
+    private Integer idAseguradora;
+    
     public Vehiculo() {
     }
 
@@ -117,11 +118,18 @@ public class Vehiculo {
     }
     
     public String getNumPoliza(){
-        return this.numPoliza;
+        return numPoliza;
     }
     
     public void setNumPoliza(String numPoliza){
         this.numPoliza = numPoliza;
     }
     
+    public void setIdAseguradora(int idAseguradora){
+        this.idAseguradora = idAseguradora;
+    }
+    
+    public int getIdAseguradora(){
+        return idAseguradora;
+    }   
 }

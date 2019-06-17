@@ -4,10 +4,19 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="Vehiculo">
-    <insert id = "registrar" parameterType = "beans.Vehiculo">
-        INSERT INTO transito.dbo.Vehiculo (numPlacas, modelo, idMarca, año, color, numPoliza)
-        VALUES (#{numPlacas},#{modelo},#{idMarca},#{year},#{color},#{numPoliza});
-    </insert>
+    <update id = "registrar" parameterType = "beans.VehiculoData">
+        {call transito.dbo.sp_registrarVehiculo(
+            #{numPlacas, jdbcType=VARCHAR, mode=IN},
+            #{idMarca, jdbcType=INTEGER, mode=IN},
+            #{modelo, jdbcType=VARCHAR, mode=IN},
+            #{color, jdbcType=VARCHAR, mode=IN},
+            #{year, jdbcType=VARCHAR, mode=IN},
+            #{numPoliza,jdbcType=VARCHAR, mode=IN},
+            #{idAseguradora, jdbcType=INTEGER, mode=IN},
+            #{fechaVencimiento, jdbcType=DATE, mode=IN},
+            #{fa, jdbcType=INTEGER, mode=OUT}
+        )}
+    </update>
     
     <insert id = "registrarAnonimo" parameterType = "beans.VehiculoAnonimo">
         INSERT INTO transito.dbo.VehiculoAnonimo (numPlacas, modelo, idMarca, año, color, numPoliza,idAseguradora)

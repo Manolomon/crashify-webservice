@@ -10,21 +10,21 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </insert>
     
     <select id = "buscarTelefono" parameterType = "string" resultType = "beans.Conductor">
-        SELECT idConductor, nombre, password, telefono, fechaNacimiento, estatus, numLicencia
+        SELECT idConductor, estatus, nombre, fechaNacimiento, numLicencia, telefono, password, tokenAcceso
         FROM transito.dbo.Conductor
         WHERE telefono = #{telefono};
     </select>
     
     <select id = "iniciarSesion" parameterType = "map" resultType = "beans.Conductor">
-        SELECT idConductor, nombre, password, telefono, fechaNacimiento, estatus, numLicencia
+        SELECT idConductor, estatus, nombre, fechaNacimiento, numLicencia, telefono, password, tokenAcceso
         FROM transito.dbo.Conductor
         WHERE telefono = #{telefono} AND password = #{password} AND estatus = 2;
     </select>
     
     <select id = "buscarTelefonoNoValidado" parameterType = "string" resultType = "beans.Conductor">
-        SELECT idConductor, nombre, password, telefono, fechaNacimiento, estatus, numLicencia
+        SELECT idConductor, estatus, nombre, fechaNacimiento, numLicencia, telefono, password, tokenAcceso
         FROM transito.dbo.Conductor
-        WHERE telefono = #{telefono} AND estatus = '1';
+        WHERE telefono = #{telefono} AND estatus = 1;
     </select>
     
     <update id = "validarConductor" parameterType = "beans.Conductor">

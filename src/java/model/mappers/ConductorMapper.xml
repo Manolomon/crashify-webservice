@@ -10,7 +10,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </insert>
     
     <select id = "buscarTelefono" parameterType = "string" resultType = "beans.Conductor">
-        SELECT idConductor, nombre, password, telefono, fechaNacimiento, idEstatus, numLicencia
+        SELECT idConductor, nombre, password, telefono, fechaNacimiento, estatus, numLicencia
         FROM transito.dbo.Conductor
         WHERE telefono = #{telefono};
     </select>
@@ -29,7 +29,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     
     <update id = "validarConductor" parameterType = "beans.Conductor">
         UPDATE transito.dbo.Conductor SET 
-        idEstatus = 2, tiempoValidación = GETDATE()
+        estatus = 2, tiempoValidación = GETDATE()
         WHERE idConductor = #{idConductor}
     </update>
     

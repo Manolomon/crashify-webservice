@@ -5,6 +5,7 @@
  */
 package ws;
 
+import beans.InfoVehiculo;
 import beans.Respuesta;
 import beans.Vehiculo;
 import beans.VehiculoAnonimo;
@@ -157,7 +158,7 @@ public class VehiculoWS {
     @POST
         @Path("getVehiculos")
         @Produces(MediaType.APPLICATION_JSON)
-        public List<Vehiculo> getVehiculos(
+        public List<InfoVehiculo> getVehiculos(
             @FormParam("idConductor") String idConductorString
     ){
         List<Vehiculo> list = new ArrayList<>();
@@ -218,7 +219,7 @@ public class VehiculoWS {
     ){
         List<Vehiculo> list = new ArrayList<>();
         int idReporte = Integer.parseInt(idReporteString);
-        return VehiculoDAO.getVehiculos(idReporte);
+        return VehiculoDAO.getVehiculosReporte(idReporte);
     }
         
     @DELETE

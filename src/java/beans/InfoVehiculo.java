@@ -9,29 +9,17 @@ package beans;
  *
  * @author Juan Carlos
  */
-public class Vehiculo {
-
+public class InfoVehiculo {
 
     private String numPlacas;
     private String modelo;
-    private Integer idMarca;
     private String year;
     private String color;
-    private String numPoliza;
-    private Integer idAseguradora;
+    private String marca;
+    private String aseguradora;
     
-    public Vehiculo() {
-    }
-
-    public Vehiculo(Integer idVehiculo, String numPlacas, String modelo, int idMarca, String year, String color, String numPoliza) {
-        this.numPlacas = numPlacas;
-        this.modelo = modelo;
-        this.idMarca = idMarca;
-        this.year = year;
-        this.color = color;
-        this.numPoliza = numPoliza;
-    }
-
+    public InfoVehiculo(){ }
+    
     /**
      * @return the numPlacas
      */
@@ -61,20 +49,6 @@ public class Vehiculo {
     }
 
     /**
-     * @return the idMarca
-     */
-    public int getIdMarca() {
-        return idMarca;
-    }
-
-    /**
-     * @param idMarca the idMarca to set
-     */
-    public void setIdMarca(int idMarca) {
-        this.idMarca = idMarca;
-    }
-
-    /**
      * @return the year
      */
     public String getYear() {
@@ -101,20 +75,33 @@ public class Vehiculo {
     public void setColor(String color) {
         this.color = color;
     }
-    
-    public String getNumPoliza(){
-        return numPoliza;
+
+    /**
+     * @return the marca
+     */
+    public String getMarca() {
+        return marca;
+    }
+
+    /**
+     * @param marca the marca to set
+     */
+    public void setMarca(String marca) {
+        this.marca = marca;
+    }
+
+    /**
+     * @return the aseguradora
+     */
+    public String getAseguradora() {
+        return aseguradora;
+    }
+
+    /**
+     * @param aseguradora the aseguradora to set
+     */
+    public void setAseguradora(String aseguradora) {
+        this.aseguradora = aseguradora;
     }
     
-    public void setNumPoliza(String numPoliza){
-        this.numPoliza = numPoliza;
-    }
-    
-    public void setIdAseguradora(int idAseguradora){
-        this.idAseguradora = idAseguradora;
-    }
-    
-    public int getIdAseguradora(){
-        return idAseguradora;
-    }   
 }

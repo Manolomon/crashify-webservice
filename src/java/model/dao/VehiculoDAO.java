@@ -5,6 +5,7 @@
  */
 package model.dao;
 
+import beans.InfoVehiculo;
 import beans.Respuesta;
 import beans.Vehiculo;
 import beans.VehiculoAnonimo;
@@ -95,8 +96,8 @@ public class VehiculoDAO {
         return res;
     }
 
-    public static List<Vehiculo> getVehiculos(Integer idConductor) {
-        List<Vehiculo> list = new ArrayList<>();
+    public static List<InfoVehiculo> getVehiculos(Integer idConductor) {
+        List<InfoVehiculo> list = new ArrayList<>();
         SqlSession conn = null;
         try {
             conn = MyBatisUtils.getSession();
@@ -217,8 +218,8 @@ public class VehiculoDAO {
                 conn = MyBatisUtils.getSession();
                 list = conn.selectList("Vehiculo.buscarVehiculo", numPlacas);
                 if (!list.isEmpty()) {
-                    Integer idVehiculo = list.get(0).getIdVehiculo();
-                    Integer idVehiculoAux = vehiculo.getIdVehiculo();
+                    String idVehiculo = list.get(0).getNumPlacas();
+                    String idVehiculoAux = vehiculo.getNumPlacas();
                     if (!Objects.equals(idVehiculo, idVehiculoAux)) {
                         respuesta = true;
                     }

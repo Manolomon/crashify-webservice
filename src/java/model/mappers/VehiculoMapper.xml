@@ -30,12 +30,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         WHERE numPlacas = #{numPLacas};
     </select>
     
-    <select id = "getVehiculosConductor" parameterType = "int" resultType = "beans.Vehiculo">
-        SELECT a.numPlacas, a.modelo, a.idMarca, a.año AS year, a.color, a.numPoliza
-        FROM transito.dbo.Vehiculo a
-        INNER JOIN transito.dbo.Vehiculo_Conductor b
-        ON a.numPlacas = b.numPlacas
-        WHERE b.idConductor = #{idConductor};
+    <select id = "getVehiculosConductor" parameterType = "int" resultType = "beans.InfoVehiculo">
+        {call transito.dbo.sp_obtenerVehiculosConductor(
+            #{idConductor, jdbcType=INTEGER, mode=IN}
+        )}
     </select>
     
     <select id = "getVehiculosReporte" parameterType = "int" resultType = "beans.Vehiculo">

@@ -49,7 +49,11 @@ public class ReporteDAO {
         SqlSession conn = null;
         try {
             conn = MyBatisUtils.getSession();
-            reporte = conn.selectOne("Reporte.obtenerDetallesReporte", idReporte);
+            List<ReporteDictamen> reportes;
+            reportes= conn.selectList("Reporte.obtenerDetallesReporte", idReporte);
+            if(!reportes.isEmpty()){
+                reporte = reportes.get(0);
+            }
         } catch (Exception ex) {
             ex.printStackTrace();
         }finally{
@@ -65,8 +69,18 @@ public class ReporteDAO {
         List<ReporteResumido> list = new ArrayList<>();
         SqlSession conn = null;
         try {
+            List<ReporteResumido>listAux = new ArrayList<>();
             conn = MyBatisUtils.getSession();
             list = conn.selectList("Reporte.buscarReportes", idConductor);
+            List<Integer>arrayIds = new ArrayList<>();
+            for(ReporteResumido reporte:list){
+                int id = reporte.getIdReporte();
+                if(!arrayIds.contains(id)){
+                    listAux.add(reporte);
+                    arrayIds.add(id);
+                }
+            }
+            list = listAux;
         } catch (Exception ex) {
             ex.printStackTrace();
         } finally {

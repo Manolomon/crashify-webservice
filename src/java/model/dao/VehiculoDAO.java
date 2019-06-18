@@ -135,27 +135,33 @@ public class VehiculoDAO {
         return res;
     }
 
-    public static Respuesta eliminarVehiculo(String numplacas) {
+    public static Respuesta eliminarVehiculo(String numPlacas) {
         int res = 0;
         Respuesta respuesta = new Respuesta();
         respuesta.setError(false);
         respuesta.setErrorcode(0);
         SqlSession conn = null;
 
-        if (numplacas == null || numplacas.trim().isEmpty()) {
+        if (numPlacas == null || numPlacas.trim().isEmpty()) {
             respuesta.setError(true);
             respuesta.setErrorcode(2);
             respuesta.setMensaje("Numplacas vacias");
         } else {
             try {
+            LinkedHashMap<String, Object> map = new LinkedHashMap<>();
+            map.put("numPlacas", numPlacas);
+            map.put("resultado", 0);
             conn = MyBatisUtils.getSession();
-            res = conn.delete("Vehiculo.eliminarVehiculo",numplacas);
+            res = conn.update("Vehiculo.eliminarVehiculo",map);
             conn.commit();
-                if (res <= 0) {
+            System.out.println(res);
+                if (res < 0) {
                     respuesta.setError(true);
                     respuesta.setErrorcode(3);
                     respuesta.setMensaje("Error al eliminar vehiculo de la BD");
                 } else {
+                    respuesta.setError(false);
+                    respuesta.setErrorcode(200);
                     respuesta.setMensaje("Vehiculo eliminado exitosamente");
                 }
             } catch (Exception ex) {

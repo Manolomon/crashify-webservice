@@ -50,9 +50,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         WHERE numPlacas = #{numPlacas};
     </update>
     
-    <delete id = "eliminarVehiculo" parameterType = "string">
-        DELETE FROM transito.dbo.Vehiculo
-        WHERE numPlacas = #{numPlacas};
-    </delete>
+    <update id = "eliminarVehiculo" parameterType = "map" statementType="CALLABLE">
+        {call transito.dbo.sp_eliminarVehiculo(
+            #{numPlacas, jdbcType=VARCHAR, mode=IN},
+            #{resultado, jdbcType=INTEGER, mode=OUT}
+        )}
+    </update>
     
-</mapper>
+</mapper>    

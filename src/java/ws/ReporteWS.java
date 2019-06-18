@@ -9,6 +9,7 @@ import beans.Reporte;
 import beans.ReporteDictamen;
 import beans.ReporteResumido;
 import beans.Respuesta;
+import beans.RespuestaReporte;
 import java.util.ArrayList;
 import java.util.List;
 import javax.ws.rs.core.Context;
@@ -44,14 +45,14 @@ public class ReporteWS {
     @POST
     @Path("nuevoReporte")
     @Produces(MediaType.APPLICATION_JSON)
-    public Respuesta agregarReporte(
+    public RespuestaReporte agregarReporte(
             @FormParam ("descripcion") String descripcion,
             @FormParam ("idConductor") String idConductorString,
             @FormParam ("latitud") String latitud,
             @FormParam ("longitud") String longitud,
             @FormParam ("placasVehiculos") String placasVehiculos
     ){
-        Respuesta res = new Respuesta();
+        RespuestaReporte res = new RespuestaReporte();
         int idConductor = Integer.parseInt(idConductorString);
         Reporte reporte = new Reporte();
         reporte.setDescripcion(descripcion);
@@ -60,11 +61,13 @@ public class ReporteWS {
         reporte.setLongitud(Float.parseFloat(longitud));
         reporte.setPlacasVehiculos(placasVehiculos);
         reporte.setEstado(1);
+        reporte.setIdReporte(0);
         int fa = ReporteDAO.agregarReporte(reporte);
         if (fa > 0) {
             res.setError(false);
             res.setErrorcode(0);
             res.setMensaje("Reporte enviado exitosamente");
+            res.setIdReporte(reporte.getIdReporte().toString());
         } else {
             switch (fa) {
                 case -1:

@@ -24,12 +24,13 @@ public class ReporteDAO {
         int res = 0;
         SqlSession conn = null;
         res = validarReporte(reporte);
+        System.out.println(res);
         if (res != 0) {
             return res;
         }
         try {
             conn = MyBatisUtils.getSession();
-            conn.update("Reporte.registrar", reporte);
+            res = conn.update("Reporte.registrar", reporte);
             conn.commit();
             if (res < 0) {
                 return -2;

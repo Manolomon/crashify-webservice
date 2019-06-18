@@ -11,7 +11,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             #{latitud, jdbcType=FLOAT, mode=IN},
             #{longitud, jdbcType=FLOAT, mode=IN},
             #{placasVehiculos, jdbcType=VARCHAR, mode=IN},
-            #{resultado, jdbcType=INTEGER, mode=OUT}
+            #{resultado, jdbcType=INTEGER, mode=OUT},
+            #{idReporte, jdbcType=INTEGER, mode=OUT}
         )}
     </update>
     

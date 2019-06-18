@@ -5,6 +5,7 @@
  */
 package model.dao;
 
+import beans.Respuesta;
 import beans.Vehiculo;
 import beans.VehiculoAnonimo;
 import beans.VehiculoData;
@@ -124,25 +125,38 @@ public class VehiculoDAO {
         return res;
     }
 
-    public static int eliminarVehiculo(int idVehiculo) {
+    public static Respuesta eliminarVehiculo(String numplacas) {
         int res = 0;
+        Respuesta respuesta = new Respuesta();
+        respuesta.setError(false);
+        respuesta.setErrorcode(0);
         SqlSession conn = null;
 
-        try {
+        if (numplacas == null || numplacas.trim().isEmpty()) {
+            respuesta.setError(true);
+            respuesta.setErrorcode(2);
+            respuesta.setMensaje("Numplacas vacias");
+        } else {
+            try {
             conn = MyBatisUtils.getSession();
-            res = conn.delete("Vehiculo.eliminarVehiculo", idVehiculo);
+            res = conn.delete("Vehiculo.eliminarVehiculo",numplacas);
             conn.commit();
-            if (res <= 0) {
-                return -3;
-            }
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        } finally {
-            if (conn != null) {
-                conn.close();
+                if (res <= 0) {
+                    respuesta.setError(true);
+                    respuesta.setErrorcode(3);
+                    respuesta.setMensaje("Error al eliminar vehiculo de la BD");
+                } else {
+                    respuesta.setMensaje("Vehiculo eliminado exitosamente");
+                }
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            } finally {
+                if (conn != null) {
+                    conn.close();
+                }
             }
         }
-        return res;
+        return respuesta;
     }
 
     public static List<Vehiculo> getVehiculosReporte(Integer idReporte) {

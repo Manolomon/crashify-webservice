@@ -14,6 +14,7 @@ import java.util.List;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.GET;
@@ -217,5 +218,15 @@ public class VehiculoWS {
         List<Vehiculo> list = new ArrayList<>();
         int idReporte = Integer.parseInt(idReporteString);
         return VehiculoDAO.getVehiculos(idReporte);
+    }
+        
+    @DELETE
+    @Path("eliminarVehiculo")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Respuesta eliminarVehiculo(
+          @FormParam("numPlacas") String numPlacas  
+    ) {
+        Respuesta res = new Respuesta();
+        return VehiculoDAO.eliminarVehiculo(numPlacas);
     }
 }

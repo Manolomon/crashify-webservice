@@ -52,7 +52,8 @@ public class VehiculoWS {
             @FormParam("year") String year,
             @FormParam("numPoliza") String numPoliza,
             @FormParam("idAseguradora") String idAseguradora,
-            @FormParam("fechaVencimiento") String fechaVencimientoString
+            @FormParam("fechaVencimiento") String fechaVencimientoString,
+            @FormParam("idConductor") String idConductor
     ) {
         Respuesta res = new Respuesta();
         Vehiculo vehiculo = new Vehiculo();
@@ -74,9 +75,9 @@ public class VehiculoWS {
             }
         }
 
-        int fa = VehiculoDAO.registrarVehiculo(vehiculo, fechaVencimiento);
+        int fa = VehiculoDAO.registrarVehiculo(vehiculo, fechaVencimiento, Integer.parseInt(idConductor));
         System.out.println(fa);
-        if (fa > 0) {
+        if (fa >= 0) {
             res.setError(false);
             res.setErrorcode(0);
             res.setMensaje("Vehículo registrado exitosamente");

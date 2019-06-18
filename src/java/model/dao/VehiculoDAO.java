@@ -24,34 +24,43 @@ import org.apache.ibatis.session.SqlSession;
  */
 public class VehiculoDAO {
 
-    public static int registrarVehiculo(Vehiculo vehiculo, Date fechaVencimiento) {
-        int res = 0;
+    public static int registrarVehiculo(Vehiculo vehiculo, Date fechaVencimiento, int idConductor) {
+        int fa = 0;
         SqlSession conn = null;
-        res = validarVehiculo(vehiculo);
+        fa = validarVehiculo(vehiculo);
         LinkedHashMap<String, Object> map = new LinkedHashMap<>();
-        if (res != 0) {
-            return res;
+        if (fa != 0) {
+            return fa;
         }
         if (buscarVehiculo(vehiculo)) {
             return -2;
         }
         try {
+            
             VehiculoData data = new VehiculoData();
-            data.setColor(vehiculo.getColor());
-            data.setFechaVencimiento(fechaVencimiento);
-            data.setIdAseguradora(vehiculo.getIdAseguradora());
+            data.setNumPlacas(vehiculo.getNumPlacas());
             data.setIdMarca(vehiculo.getIdMarca());
             data.setModelo(vehiculo.getModelo());
-            data.setNumPlacas(vehiculo.getNumPlacas());
-            data.setNumPoliza(vehiculo.getNumPoliza());
+            data.setColor(vehiculo.getColor());
             data.setYear(vehiculo.getYear());
-            
-            System.out.println(map);
+            data.setNumPoliza(vehiculo.getNumPoliza());
+            data.setIdAseguradora(vehiculo.getIdAseguradora());
+            data.setFechaVencimiento(fechaVencimiento);
+            data.setFa(0);
+            map.put("numPlacas", data.getNumPlacas().toString());
+            map.put("idMarca", data.getIdMarca());
+            map.put("modelo", data.getModelo());
+            map.put("color", data.getColor());
+            map.put("year", data.getYear());
+            map.put("numPoliza", data.getNumPoliza());
+            map.put("idAseguradora", data.getIdAseguradora());
+            map.put("fechaVencimiento", data.getFechaVencimiento());
+            map.put("idConductor", idConductor);
+            map.put("fa", data.getFa());
             conn = MyBatisUtils.getSession();
-            conn.update("Vehiculo.registrar", map);
+            fa = conn.update("Vehiculo.registrar", map);
             conn.commit();
-            res = data.getFa();
-            if (res <= 0) {
+            if (fa < 0) {
                 return -3;
             }
         } catch (Exception ex) {
@@ -63,7 +72,7 @@ public class VehiculoDAO {
                 conn.close();
             }
         }
-        return res;
+        return fa;
     }
     
     public static int registrarVehiculoAnonimo(VehiculoAnonimo vehiculo) {

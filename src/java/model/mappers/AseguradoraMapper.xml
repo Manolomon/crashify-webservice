@@ -4,12 +4,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace = "Aseguradora">
-    <select id="getAseguradoras" resultType = "beans.Marca">
+    <select id="getAseguradoras" resultType = "beans.Aseguradora">
         SELECT idAseguradora, nombre 
         FROM transito.dbo.Aseguradora;
     </select>
 
-    <select id="getAseguradora" parameterType="int" resultType = "beans.Marca">
+    <select id="getAseguradora" parameterType="int" resultType = "beans.Aseguradora">
         SELECT idAseguradora, nombre 
         FROM transito.dbo.Aseguradora
         WHERE idAseguradora = #{idAseguradora};
